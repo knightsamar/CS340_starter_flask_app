@@ -38,5 +38,6 @@ if __name__ == '__main__':
     query = "SELECT * from bsg_people;"
     results = execute_query(db, query);
     print("Printing results of %s" % query)
+
     for r in results.fetchall():
         print(r)
