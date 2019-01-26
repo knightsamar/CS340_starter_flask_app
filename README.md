@@ -95,13 +95,15 @@ Because this is running on a shared machine everyone cannot use port 5000. Every
 So we specify the Python file for database connection and also set a port number. You could view the database page of nine entries being served by visiting http://access.engr.oregonstate.edu:5678/db-test while you are VPNed into the OSU network.
 
 
-## Forever
-TBD - SKIPP THIS PART
+## Running the Flask Application Persistently
+
+Finally is the topic of persistence. There are a lot of tools you can use, such as [run with a production server using waitress](http://flask.pocoo.org/docs/1.0/tutorial/deploy/#run-with-a-production-server
+) or [deploy in a standalone WSGI Containers using uWSGI](http://flask.pocoo.org/docs/1.0/deploying/wsgi-standalone/), etc. Please follow the detailed instructions in documents. 
 
 
 ## The Many Flips
 
-TBD - SKIPP THIS PART
+And as a closing note, if you log into access.engr.oregonstate.edu you will randomly be put on flip1, flip2 or flip3. You can see which flip you are using the command `hostname` then you can switch flips by using the command `ssh flipX` where X is 1, 2 or 3. You need to be sure to log into the same flip every time because the node instance will only be running on one of them.
 
 
 ## Activity
