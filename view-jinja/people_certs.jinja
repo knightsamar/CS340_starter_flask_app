@@ -1,0 +1,45 @@
+<html>
+{% for eachfoo in foo %}
+{{eachfoo}}
+{% endfor %}
+<div>
+<h3> Associate Certificate(s) with a Person </h3>
+    <form id="add_people_certificates" action="/people_certs" method="post">
+    Person: <select name='pid'>
+        {% for ppl in people %}
+        <option value='{{ppl.pid}}'>{{ppl.fname}} {{ppl.lname}}</option>
+        {% endfor %}
+    </select>
+    <br>
+    Certificates:<sup>Multi-select</sup> <select multiple name="certs"> 
+        {# We display title but the value that is submitted through the form is actually the certificate's id #}
+        {% for certi in certificates %}
+        <option value="{{certi.cid}}">{{certi.title}}</option>
+        {% endfor %}
+    </select><br>
+    <input type="submit" value="Submit">
+    </form>
+</div>
+<br/>
+<h3> List of People with their Certifications </h3>
+<table>
+    <thead> 
+        <th>Name</th> 
+        <th>Certificate</th> 
+    </thead> 
+    <tbody> 
+        {% if people_with_certs %}
+          {% for ppl_with_cert in people_with_certs %}
+          <tr> 
+            <td>{{ppl_with_cert.name}}</td> 
+            <td>{{ppl_with_cert.certificate}}</td> 
+            <td><button onclick="deletePeopleCert({{ppl_with_cert.pid}},{{ppl_with_cert.cid}})">Delete</button></td>
+            <td><a href='#' onclick='javascript: alert("You can implement it just like the Add form.")'>Update</a></td>
+           </tr>
+          {% endfor %}
+        {% else %}
+          <b> No people with any certifications found! Grant some using the form. </b>
+        {% endif %}
+    </tbody>
+</table> 
+</html>
