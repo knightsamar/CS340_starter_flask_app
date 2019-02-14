@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+    <title>Demo Page</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    {% for myscript in jsscripts %}
+    <script src="/static/{{myscript}}"></script>
+    {% endfor %}
+</head>
+<body>
+	{{{body}}}
+</body>
+</html>
