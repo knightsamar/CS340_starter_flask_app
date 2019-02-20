@@ -97,8 +97,18 @@ So we specify the Python file for database connection and also set a port number
 
 ## Running the Flask Application Persistently
 
-Finally is the topic of persistence. There are a lot of tools you can use, such as [run with a production server using waitress](http://flask.pocoo.org/docs/1.0/tutorial/deploy/#run-with-a-production-server
-) or [deploy in a standalone WSGI Containers using uWSGI](http://flask.pocoo.org/docs/1.0/deploying/wsgi-standalone/), etc. Please follow the detailed instructions in documents. 
+Finally, is the topic of persistence. How to ensure that your app keeps running even after you disconnect from the flip servers/VPN ?
+
+To do that,we use [gunicorn](https://gunicorn.org/) as follows:
+
+```bash
+gunicorn run:app -b 0.0.0.0:8808 -D 
+```
+
+The -D runs the gunicorn process in background.
+
+There are a lot of tools you can use, such as [run with a production server using waitress](http://flask.pocoo.org/docs/1.0/tutorial/deploy/#run-with-a-production-server
+) or [deploy in a standalone WSGI Containers using uWSGI](http://flask.pocoo.org/docs/1.0/deploying/wsgi-standalone/), etc.  
 
 
 ## The Many Flips
