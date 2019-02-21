@@ -17,7 +17,7 @@ def index():
 @app.route('/db-test')
 def test_database_connection():
     print("Executing a sample query on the database using the credentials from db_credentials.py")
-    db = connect_to_database()
+    db_connection = connect_to_database()
     query = "SELECT * from bsg_people;"
-    rows = execute_query(db, query);
-    return render_template('db_test.html', rows=rows)
+    result = execute_query(db, query);
+    return render_template('db_test.html', rows=result)
