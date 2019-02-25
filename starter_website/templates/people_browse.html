@@ -1,0 +1,22 @@
+<html>
+<head><title>Browse people</title></head>
+<h3>Current people</h3>
+<table border='1'>
+    <thead>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Homeworld</th>
+        <th>Age</th>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td> {{ r.0 }}</td>
+        <td> {{ r[1] }}</td>
+        <td> {{ r[2] }}</td>
+        <td> {{ r[3] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+</html>

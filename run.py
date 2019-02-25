@@ -1,11 +1,11 @@
 #this file is used to run your flask-based-database-interacting-website persistently!
 
 #change this line to run the app that you want to run
-from db_connector.sample import app
+#from db_connector.sample import app
+from starter_website.webapp import webapp
 #for example, the above line tells to run the sample db connection app in db_connector/ directory
 
 #then from the commandline run:
 #./venv/bin/activate
-#gunicorn run:app -b 0.0.0.0:SOME_NUMBER_BETWEEN_1025_and_65535 
+#gunicorn run:app -b 0.0.0.0:SOME_NUMBER_BETWEEN_1025_and_65535
 #eg. gunicorn run:app -b 0.0.0.0:8842
-
