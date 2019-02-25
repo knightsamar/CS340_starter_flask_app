@@ -8,7 +8,7 @@ def connect_to_database(host = host, user = user, passwd = passwd, db = db):
     db_connection = mariadb.connect(host,user,passwd,db)
     return db_connection
 
-def execute_query(db_connection = None, query = None):
+def execute_query(db_connection = None, query = None, query_params = ()):
     '''
     executes a given SQL query on the given db connection and returns a Cursor object
 
@@ -28,11 +28,18 @@ def execute_query(db_connection = None, query = None):
         print("query is empty! Please pass a SQL query in query")
         return None
 
+    print("Executing %s with %s" % (query, query_params));
     # Create a cursor to execute query. Why? Because apparently they optimize execution by retaining a reference according to PEP0249
     cursor = db_connection.cursor()
 
+    '''
+    params = tuple()
+    #create a tuple of paramters to send with the query
+    for q in query_params:
+        params = params + (q)
+    '''
     #TODO: Sanitize the query before executing it!!!
-    cursor.execute(query)
+    cursor.execute(query, query_params)
     return cursor
 
 if __name__ == '__main__':

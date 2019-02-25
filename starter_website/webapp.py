@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask import request
 from db_connector.db_connector import connect_to_database, execute_query
 #create the web application
 webapp = Flask(__name__)
@@ -18,3 +19,24 @@ def browse_people():
     result = execute_query(db_connection, query).fetchall();
     print(result)
     return render_template('people_browse.html', rows=result)
+
+@webapp.route('/add_new_people', methods=['POST','GET'])
+def add_new_people():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT planet_id, name from bsg_planets'
+        result = execute_query(db_connection, query).fetchall();
+        print(result)
+
+        return render_template('people_add_new.html', planets = result)
+    elif request.method == 'POST':
+        print("Add new people!");
+        fname = request.form['fname']
+        lname = request.form['lname']
+        age = request.form['age']
+        homeworld = request.form['homeworld']
+
+        query = 'INSERT INTO bsg_people (fname, lname, age, homeworld) VALUES (%s,%s,%s,%s)'
+        data = (fname, lname, age, homeworld)
+        execute_query(db_connection, query, data)
+        return ('Person added!');
