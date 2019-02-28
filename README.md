@@ -38,7 +38,7 @@ This command will clone all the class files from the class Git repository into t
 
 ## Making Required Changes
 
-First you should goto the `CS340_sample_flask_app` repository folder and setup a new Python virtual environment for Flask, then install related dependencies. Run the commands within previous directory:
+First you should goto the `CS340_sample_flask_app` repository folder (that is, if it exists... it's possible that the repo files may have just cloned into the directory) and setup a new Python virtual environment for Flask, then install related dependencies. Run the commands within previous directory:
 
 ```bash
 cd CS340_sample_flask_app
@@ -86,13 +86,24 @@ With that file renamed to `db_credentials.py` and the proper credentials added w
 Make sure you are still in the `CS340_sample_flask_app` directory and `venv` Python virtual environment. otherwise you should `source ./venv/bin/activate` again. Then setup Flask app file, which is actually a Python script file named `db_connection_sample.py` and run the Flask web server as below:
 
 ```bash
-export FLASK_APP=db_connection_sample.py
+export FLASK_APP=run.py
 flask run -h 0.0.0.0 -p {your_port_number, e.g. 5678} --reload
 ```
 
+
+if the above commands throw module errors, please try:
+
+
+```bash
+export FLASK_APP=run.py
+python -m flask run -h 0.0.0.0 -p {your_port_number, e.g. 5678} --reload
+```
+
+To verify that your server is running, a Hello World page will be visible at /hello, while the sample database can be found at /browse_bsg_people
+
 Because this is running on a shared machine everyone cannot use port 5000. Everyone will need to use a unique port otherwise you will get an error that the port is in use.
 
-So we specify the Python file for database connection and also set a port number. You could view the database page of nine entries being served by visiting http://access.engr.oregonstate.edu:5678/db-test while you are VPNed into the OSU network.
+So we specify the Python file for database connection and also set a port number. You could view the database page of nine entries being served by visiting http://access.engr.oregonstate.edu:5678/browse_bsg_people while you are VPNed into the OSU network.
 
 
 ## Running the Flask Application Persistently
@@ -118,7 +129,7 @@ And as a closing note, if you log into access.engr.oregonstate.edu you will rand
 
 ## Activity
 
-You should be able to run the `db_connection_sample.py` and access the page it serves while VPNed onto the server. It will display all entries of bsg_people table.
+You should be able to run the `run.py` and access the page it serves while VPNed onto the server. It will display all entries of bsg_people table.
 
 
 ## Review
