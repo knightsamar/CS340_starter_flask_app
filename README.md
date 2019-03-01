@@ -77,18 +77,9 @@ db = 'cs340_hedaoos'
 
 With that file renamed to `db_credentials.py` and the proper credentials added, we are almost ready to go.
 
+## Running the Flask Application!
 
-## Ports and Persistence
-
-Make sure you are still in the `CS340_starter_flask_app` directory. 
-
-```bash
-source ./venv/bin/activate
-export FLASK_APP=run.py
-flask run -h 0.0.0.0 -p YOUR_PORT_NUMBER (e.g. 8042) --reload
-```
-
-If the above commands throw module errors, please try:
+Make sure you are still inside the `CS340_starter_flask_app` directory. 
 
 ```bash
 source ./venv/bin/activate
@@ -96,11 +87,13 @@ export FLASK_APP=run.py
 python -m flask run -h 0.0.0.0 -p 8042 --reload
 ```
 
-**Replace 5678 with a random port number***
-
-To verify that your server is running, a Hello World page will be visible at `/hello`, while the sample database can be found at `/browse_bsg_people`. 
+**Replace 8042 with a random port number**
 
 Now, your website should be accessible at http://flipN.engr.oregonstate.edu:YOUR_PORT_NUMBER
+
+To verify that your server is running, a Hello World page will be visible at `/hello`, while the a READ implementation page can be found at `/browse_bsg_people`. 
+
+So you would go to http://flipN.engr.oregonstate.edu:YOUR_PORT_NUMBER/hello or similar.
 
 flipN means either of flip1, flip2 or flip3.
 YOUR_PORT_NUMBER is the number that you used in the command above to run the app.
@@ -109,12 +102,12 @@ Because this is running on a shared machine everyone cannot use port 8042. Every
 
 So, we specify the Python file for database connection and also set a port number. You could view the database page of nine entries being served by visiting http://access.engr.oregonstate.edu:5678/browse_bsg_people while you are VPNed into the OSU network.
 
+This is how you run the app using the Flask Development server. But to submit your URL for assignments, you need to use the method below!
 
-## Running the Flask Application Persistently
-
+## Running the Flask Application Persistently!!
 Finally, is the topic of persistence. How to ensure that your app keeps running even after you disconnect from the flip servers/VPN ?
 
-To do that,we use [gunicorn](https://gunicorn.org/) as follows:
+To do that, we use [gunicorn](https://gunicorn.org/) as follows:
 
 ```bash
 gunicorn run:app -b 0.0.0.0:YOUR_PORT_NUMBER -D 
@@ -125,6 +118,15 @@ The -D runs the gunicorn process in background.
 There are a lot of other tools you can use, such as [run with a production server using waitress](http://flask.pocoo.org/docs/1.0/tutorial/deploy/#run-with-a-production-server
 ) or [deploy in a standalone WSGI Containers using uWSGI](http://flask.pocoo.org/docs/1.0/deploying/wsgi-standalone/), etc.  
 
+
+### How to kill an old running gunicorn process ? 
+
+You would have to find your process on the right flip server by running
+
+```bash
+ps ufx | grep gunicorn
+```
+And then kill the process by using it's PID (see the second column in the above output). Note that the grep process also shows up in the output. You want to kill the other process which has a child process. That's most probably the second process in the above output.
 
 ## The Many Flips
 
