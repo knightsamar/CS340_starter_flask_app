@@ -43,25 +43,31 @@ def add_new_people():
 
 #display update form and process any updates, using the same function
 @webapp.route('/update_people/<id>', methods=['POST','GET'])
-def update_people():
+def update_people(id):
     db_connection = connect_to_database()
     if request.method == 'GET':
-        planets_query = 'SELECT planet_id, name from bsg_planets'
-        planets_results = execute_query(db_connection, planets_query).fetchall();
-        
-        people_query = 'SELECT fname, lname, homeworld, age from bsg_people
-        WHERE character_id == %s' % (id) 
+
+        people_query = 'SELECT character_id, fname, lname, homeworld, age from bsg_people WHERE character_id = %s' % (id) 
         people_result = execute_query(db_connection, people_query).fetchone()
 
-        return render_template('people_update.html', planets = planets_results, people = people_result)
+        if people_result == None:
+            return "No such person found!"
+
+        planets_query = 'SELECT planet_id, name from bsg_planets'
+        planets_results = execute_query(db_connection, planets_query).fetchall();
+
+        return render_template('people_update.html', planets = planets_results, person = people_result)
     elif request.method == 'POST':
         print("Update people!");
+        character_id = request.form['character_id'] 
         fname = request.form['fname']
         lname = request.form['lname']
         age = request.form['age']
         homeworld = request.form['homeworld']
 
-        query = 'INSERT INTO bsg_people (fname, lname, age, homeworld) VALUES (%s,%s,%s,%s)'
-        data = (fname, lname, age, homeworld)
-        execute_query(db_connection, query, data)
-        return ('Person added!');
+        print(request.form);
+
+        query = "UPDATE bsg_people SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE character_id = %s"
+        data = (fname, lname, age, homeworld, character_id)
+        result = execute_query(db_connection, query, data)
+        return (str(result.rowcount) + " row(s) updated");
