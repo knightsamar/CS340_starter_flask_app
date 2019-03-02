@@ -40,6 +40,9 @@ def execute_query(db_connection = None, query = None, query_params = ()):
     '''
     #TODO: Sanitize the query before executing it!!!
     cursor.execute(query, query_params)
+    # this will actually commit any changes to the database. without this no
+    # changes will be committed!
+    db_connection.commit();
     return cursor
 
 if __name__ == '__main__':
