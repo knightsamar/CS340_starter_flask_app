@@ -40,3 +40,15 @@ def add_new_people():
         data = (fname, lname, age, homeworld)
         execute_query(db_connection, query, data)
         return ('Person added!');
+
+@webapp.route('/')
+def index():
+    return "<p>Are you looking for /db-test or /hello or /browse_bsg_people or /add_new_people?</p>"
+
+@webapp.route('/db-test')
+def test_database_connection():
+    print("Executing a sample query on the database using the credentials from db_credentials.py")
+    db_connection = connect_to_database()
+    query = "SELECT * from bsg_people;"
+    result = execute_query(db_connection, query);
+    return render_template('db_test.html', rows=result)
