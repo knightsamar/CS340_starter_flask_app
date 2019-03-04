@@ -1,5 +1,5 @@
 <h3>Add new people:</h3>
-<form id="addperson" action="/update_people/{{person[0]}}" method="post">
+<form id="update_person" action="/update_people/{{person[0]}}" method="post">
   <!-- character_id {{ character_id }} -->
   <input type="hidden" name="character_id" value = "{{ person[0] }}">
   First name: <input type="text" name="fname" value = "{{ person[1] }}"><br>
