@@ -110,7 +110,7 @@ Finally, is the topic of persistence. How to ensure that your app keeps running 
 To do that, we use [gunicorn](https://gunicorn.org/) as follows:
 
 ```bash
-gunicorn run:app -b 0.0.0.0:YOUR_PORT_NUMBER -D 
+gunicorn run:webapp -b 0.0.0.0:YOUR_PORT_NUMBER -D 
 ```
 
 The -D runs the gunicorn process in background.
