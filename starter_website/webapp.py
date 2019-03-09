@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask import request
+from flask import request, redirect
 from db_connector.db_connector import connect_to_database, execute_query
 #create the web application
 webapp = Flask(__name__)
@@ -15,7 +15,7 @@ def hello():
 def browse_people():
     print("Fetching and rendering people web page")
     db_connection = connect_to_database()
-    query = "SELECT fname, lname, homeworld, age from bsg_people;"
+    query = "SELECT fname, lname, homeworld, age, character_id from bsg_people;"
     result = execute_query(db_connection, query).fetchall();
     print(result)
     return render_template('people_browse.html', rows=result)
@@ -82,4 +82,16 @@ def update_people(id):
         query = "UPDATE bsg_people SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE character_id = %s"
         data = (fname, lname, age, homeworld, character_id)
         result = execute_query(db_connection, query, data)
-        return (str(result.rowcount) + " row(s) updated");
+        print(str(result.rowcount) + " row(s) updated");
+
+        return redirect('/browse_bsg_people')
+
+@webapp.route('/delete_people/<int:id>')
+def delete_people(id):
+    '''deletes a person with the given id'''
+    db_connection = connect_to_database()
+    query = "DELETE FROM bsg_people WHERE character_id = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    return (str(result.rowcount) + "row deleted")
