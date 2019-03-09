@@ -54,12 +54,12 @@ def test_database_connection():
     return render_template('db_test.html', rows=result)
 
 #display update form and process any updates, using the same function
-@webapp.route('/update_people/<id>', methods=['POST','GET'])
+@webapp.route('/update_people/<int:id>', methods=['POST','GET'])
 def update_people(id):
     db_connection = connect_to_database()
+    #display existing data
     if request.method == 'GET':
-
-        people_query = 'SELECT character_id, fname, lname, homeworld, age from bsg_people WHERE character_id = %s' % (id) 
+        people_query = 'SELECT character_id, fname, lname, homeworld, age from bsg_people WHERE character_id = %s' % (id)
         people_result = execute_query(db_connection, people_query).fetchone()
 
         if people_result == None:
@@ -71,7 +71,7 @@ def update_people(id):
         return render_template('people_update.html', planets = planets_results, person = people_result)
     elif request.method == 'POST':
         print("Update people!");
-        character_id = request.form['character_id'] 
+        character_id = request.form['character_id']
         fname = request.form['fname']
         lname = request.form['lname']
         age = request.form['age']
