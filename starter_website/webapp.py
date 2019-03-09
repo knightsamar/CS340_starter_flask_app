@@ -43,7 +43,7 @@ def add_new_people():
 
 @webapp.route('/')
 def index():
-    return "<p>Are you looking for /db-test or /hello or /browse_bsg_people or /add_new_people?</p>"
+    return "<p>Are you looking for /db-test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
 
 @webapp.route('/db-test')
 def test_database_connection():
