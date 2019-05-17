@@ -45,7 +45,7 @@ cd CS340_starter_flask_app
 bash
 virtualenv venv -p $(which python3) 
 source ./venv/bin/activate
-pip3 install --upgrade pip3
+pip3 install --upgrade pip
 pip install -r requirements.txt
 ```
 
