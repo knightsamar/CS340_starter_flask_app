@@ -39,7 +39,7 @@ def home():
             page += "Customer"
         page += email + "<br>" + \
         "<a href = '/logout'>Click here to log out</a>"
-            return page
+        return page
     return "You are not logged in<br>" + \
         "<a href = '/login'>Click here to log in</a>"
 
