@@ -27,7 +27,8 @@ def login():
 def home():
     if 'user' in session:
         email = session['user']
-        return 'Logged in as' + email + "<br\><a href = '/logout'>Click here to log out</a>"
+        return 'Logged in as ' + email + "<br\>" + \
+            + "<a href = '/logout'>Click here to log out</a>"
     return "You are not logged in <br><a href = '/login'><br>Click here to log in</a>"
 
 #@webapp.route('/add_item')
