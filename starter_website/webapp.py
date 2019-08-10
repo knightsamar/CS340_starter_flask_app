@@ -1,27 +1,31 @@
-from flask import Flask, render_template
-from flask import request, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, url_for, escape
 from db_connector.db_connector import connect_to_database, execute_query
 from itsdangerous import URLSafeSerializer
 #create the web application
 webapp = Flask(__name__)
-
+webapp.secret_key = 'cs340_2019'
 auth_s = URLSafeSerializer("some_password", "some_salt")
 
 @webapp.route('/')
 def index():
     return redirect(url_for('login')) 
 
-@webapp.route('/login')
+@webapp.route('/login',methods=['POST','GET'])
 def login():
-    db_connection = connect_to_database()
-    query = "SELECT email from Final_Users;"
-    result = execute_query(db_connection, query).fetchall()
-    return render_template('login.html', emails=result)
+    if request.method == 'GET':
+        db_connection = connect_to_database()
+        query = "SELECT email from Final_Users;"
+        result = execute_query(db_connection, query).fetchall()
+        return render_template('login.html', emails=result)
+    elif request.method == 'POST':
+        session['user'] = request.form['email']
+        return redirect(url_for('home'))
+
 
 @webapp.route('/home')
 def home():
-    if 'email' in session:
-        email = session['email']
+    if 'user' in session:
+        email = session['user']
         return 'Logged in as' + email + "<br\><a href = '/logout'>Click here to log out</a>"
     return "You are not logged in <br><a href = '/login'><br>Click here to log in</a>"
 
