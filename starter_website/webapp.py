@@ -18,7 +18,7 @@ def login():
     result = execute_query(db_connection, query);
     return render_template('login.html', rows=result)
     if 'email' in session['email']:
-
+        return 'Logged in as' + email + '<br\><a href = '/logout'>Click here to log out</a>"
 
 #@webapp.route('/add_item')
 #def add_item():
