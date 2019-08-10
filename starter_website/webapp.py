@@ -5,7 +5,7 @@ from itsdangerous import URLSafeSerializer
 #create the web application
 webapp = Flask(__name__)
 
-auth_s = URLSafeSerializer("some_password", "some_salt"))
+auth_s = URLSafeSerializer("some_password", "some_salt")
 
 @webapp.route('/')
 def index():
