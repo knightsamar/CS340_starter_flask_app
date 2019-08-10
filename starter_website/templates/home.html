@@ -3,7 +3,7 @@
 
 {% if user %}
 <h3>
-  Welcome, {% if user[1] == "D" %}Driver{% endif %}{{user[3]}}
+  Welcome, {% if user[1] == "D" %}Driver{% elif user[1] == "F" %}Manager{{% if user[1] == "C" %}Customer{% endif %} {{user[3]}}
 </h3>
 <a href = '/logout'>Click here to log out</a>
 {% else %}
