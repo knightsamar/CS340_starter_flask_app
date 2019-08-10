@@ -1,14 +1,39 @@
 from flask import Flask, render_template
 from flask import request, redirect
 from db_connector.db_connector import connect_to_database, execute_query
+from itsdangerous import URLSafeSerializer
 #create the web application
 webapp = Flask(__name__)
 
-#provide a route where requests on the web application can be addressed
-@webapp.route('/hello')
-#provide a view (fancy name for a function) which responds to any requests on this route
-def hello():
-    return "Hello World!";
+auth_s = URLSafeSerializer("some_password", "some_salt"))
+
+@webapp.route('/')
+def index():
+    return redirect(url_for('/login')) 
+
+@webapp.route('/login')
+def login():
+    db_connection = connect_to_database()
+    query = "SELECT email from Final_Users;"
+    result = execute_query(db_connection, query);
+    return render_template('login.html', rows=result)
+    if 'email' in session['email']:
+
+
+#@webapp.route('/add_item')
+#def add_item():
+
+#@webapp.route('/search')
+#def search():
+
+#@webapp.route('/change_address')
+#def change_address():
+
+@webapp.route('/logout')
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('/login'))
+
 
 @webapp.route('/browse_bsg_people')
 #the name of this function is just a cosmetic thing
@@ -41,11 +66,8 @@ def add_new_people():
         execute_query(db_connection, query, data)
         return ('Person added!');
 
-@webapp.route('/')
-def index():
-    return "<p>Are you looking for /db-test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
-
 @webapp.route('/db-test')
+#provide a route where requests on the web application can be addressed
 def test_database_connection():
     print("Executing a sample query on the database using the credentials from db_credentials.py")
     db_connection = connect_to_database()
