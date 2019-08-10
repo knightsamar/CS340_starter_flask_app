@@ -1,0 +1,22 @@
+<h3>Add new people:</h3>
+<form id="update_person" action="/update_people/{{person[0]}}" method="post">
+  <!-- character_id {{ character_id }} -->
+  <input type="hidden" name="character_id" value = "{{ person[0] }}">
+  First name: <input type="text" name="fname" value = "{{ person[1] }}"><br>
+  Last name: <input type="text" name="lname" value = "{{ person[2] }}" ><br>
+  Homeworld: <select name="homeworld">
+	<!-- display all planets inside this dropdown -->
+        {% for planet in planets %}
+          {{ planet[0] }}
+          {{ person[3] }}
+          {% if planet[0] == person[3] %}
+             <option selected value="{{ planet[0] }}">{{ planet[1] }}</option>
+          {% else %}
+            <option value="{{ planet[0] }}">{{ planet[1] }}</option>
+          {% endif %}
+        {% endfor %}
+    </select><br>
+    Age: <input type="number" name="age" value = "{{ person[4] }}"><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>
