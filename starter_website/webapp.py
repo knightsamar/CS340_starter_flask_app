@@ -13,15 +13,20 @@ def index():
 
 @webapp.route('/login')
 def login():
-    db_connection = connect_to_database()
-    query = "SELECT email from Final_Users;"
-    result = execute_query(db_connection, query).fetchall()
-    return render_template('login.html', emails=result)
+    if request.method == 'GET':
+        db_connection = connect_to_database()
+        query = "SELECT email from Final_Users;"
+        result = execute_query(db_connection, query).fetchall()
+        return render_template('login.html', emails=result)
+    elif request.method == 'POST':
+        session['user'] = request.form['email']
+        return redirect(url_for('home'))
+
 
 @webapp.route('/home')
 def home():
     if 'email' in session:
-        email = session['email']
+        email = session['user']
         return 'Logged in as' + email + "<br\><a href = '/logout'>Click here to log out</a>"
     return "You are not logged in <br><a href = '/login'><br>Click here to log in</a>"
 

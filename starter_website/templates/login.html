@@ -1,7 +1,7 @@
 <html>
 <head><title>Login</title></head>
 <h3>Select your user:</h3>
-<form id="users" action="/login" method="post">
+<form id="user" action="/login" method="post">
     User: <select name="email"> 
         {% for email in emails %}
         {{email}}
