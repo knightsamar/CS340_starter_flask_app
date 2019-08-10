@@ -43,7 +43,7 @@ def home():
 
 @webapp.route('/logout')
 def logout():
-    session.pop('email', None)
+    session.pop('user', None)
     return redirect(url_for('login'))
 
 
