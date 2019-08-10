@@ -9,7 +9,7 @@ auth_s = URLSafeSerializer("some_password", "some_salt")
 
 @webapp.route('/')
 def index():
-    return redirect(url_for('/login')) 
+    return redirect(url_for('login')) 
 
 @webapp.route('/login')
 def login():
@@ -37,7 +37,7 @@ def home():
 @webapp.route('/logout')
 def logout():
     session.pop('email', None)
-    return redirect(url_for('/login'))
+    return redirect(url_for('login'))
 
 
 # @webapp.route('/browse_bsg_people')
