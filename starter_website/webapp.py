@@ -34,14 +34,17 @@ def home():
     return render_template('home.html')    
 
 
-#@webapp.route('/add_item')
-#def add_item():
+@webapp.route('/add_item')
+def add_item():
+    return render_template('add_item.html')    
 
-#@webapp.route('/search')
-#def search():
+@webapp.route('/search')
+def search():
+    return render_template('search.html')    
 
-#@webapp.route('/change_address')
-#def change_address():
+@webapp.route('/change_address')
+def change_address():
+    return render_template('change_address.html')    
 
 @webapp.route('/logout')
 def logout():
