@@ -25,7 +25,7 @@ def login():
 
 @webapp.route('/home')
 def home():
-    if 'id' in session:
+    if 'email' in session:
         db_connection = connect_to_database()
         query = 'SELECT type FROM Final_Users WHERE id = %s' % (email)
         result = execute_query(db_connection, query).fetchone()    
