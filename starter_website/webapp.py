@@ -16,7 +16,8 @@ def login():
         db_connection = connect_to_database()
         query = "SELECT email from Final_Users;"
         result = execute_query(db_connection, query).fetchall()
-        return render_template('login.html', emails=result)
+        result_emails = [row[0] for row in result]
+        return render_template('login.html', emails=result_emails)
     elif request.method == 'POST':
         session['user'] = request.form['email']
         return redirect(url_for('home'))
