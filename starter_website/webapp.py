@@ -25,10 +25,17 @@ def login():
 
 @webapp.route('/home')
 def home():
-    if 'user' in session:
-        email = session['user']
-        return 'Logged in as ' + email + "<br>" + \
+    if 'id' in session:
+        db_connection = connect_to_database()
+        query = "SELECT type from Final_Users WHERE id = %s' % (id)
+        result = execute_query(db_connection, query).fetchone()    
+        email = session['id']
+        page = 'Hello '
+            if result == 'd':
+                page += Driver
+            page += email + "<br>" + \
             "<a href = '/logout'>Click here to log out</a>"
+            return page
     return "You are not logged in<br>" + \
         "<a href = '/login'>Click here to log in</a>"
 
@@ -43,7 +50,7 @@ def home():
 
 @webapp.route('/logout')
 def logout():
-    session.pop('user', None)
+    session.pop('id', None)
     return redirect(url_for('login'))
 
 
