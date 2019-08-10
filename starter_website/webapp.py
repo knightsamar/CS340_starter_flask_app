@@ -30,7 +30,7 @@ def home():
         db_connection = connect_to_database()
         query = 'SELECT type FROM Final_Users WHERE email = "%s"' % (email)
         result = execute_query(db_connection, query).fetchone()    
-        page = 'Hello ' + result
+        page = 'Hello ' + result[0]
         if result == "D":
             page = page + "Driver"
         elif result == "F":
