@@ -31,8 +31,8 @@ def home():
         result = execute_query(db_connection, query).fetchone()    
         email = session['id']
         page = 'Hello '
-            if result == 'd':
-                page += Driver
+            if result == 'D':
+                page += "Driver"
             page += email + "<br>" + \
             "<a href = '/logout'>Click here to log out</a>"
             return page
