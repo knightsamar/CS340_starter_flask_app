@@ -32,12 +32,12 @@ def home():
         email = session['email']
         page = 'Hello '
         if result == "D":
-            page += "Driver"
+            page = page + "Driver"
         elif result == "F":
-            page += "Manager"
+            page = page + "Manager"
         elif result == "C":
-            page += "Customer"
-        page += email + "<br>" + \
+            page = page + "Customer"
+        page = page + email + "<br>" + \
         "<a href = '/logout'>Click here to log out</a>"
         return page
     return "You are not logged in<br>" + \
