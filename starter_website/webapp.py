@@ -26,10 +26,10 @@ def login():
 @webapp.route('/home')
 def home():
     if 'email' in session:
+        email = session['email']
         db_connection = connect_to_database()
         query = 'SELECT type FROM Final_Users WHERE id = %s' % (email)
         result = execute_query(db_connection, query).fetchone()    
-        email = session['email']
         page = 'Hello '
         if result == "D":
             page = page + "Driver"
