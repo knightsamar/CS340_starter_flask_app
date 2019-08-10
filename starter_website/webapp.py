@@ -3,7 +3,7 @@ from db_connector.db_connector import connect_to_database, execute_query
 from itsdangerous import URLSafeSerializer
 #create the web application
 webapp = Flask(__name__)
-webapp.sercret_key = 'cs340_2019'
+webapp.secret_key = 'cs340_2019'
 auth_s = URLSafeSerializer("some_password", "some_salt")
 
 @webapp.route('/')
