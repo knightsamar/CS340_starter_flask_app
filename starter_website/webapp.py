@@ -29,19 +29,10 @@ def home():
         email = session['email']
         db_connection = connect_to_database()
         query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
-        result = execute_query(db_connection, query).fetchone()    
-        page = 'Hello ' + result.type
-        if result.type == "D":
-            page = page + 'Driver ' + result.last_name
-        elif result.type == "F":
-            page = page + 'Manager' + result.last_name
-        elif result.type == "C":
-            page = page +  + result.first_name + "!"
-        page = page + email + "<br>" + \
-        "<a href = '/logout'>Click here to log out</a>"
-        return
-    return "You are not logged in<br>" + \
-        "<a href = '/login'>Click here to log in</a>"
+        result = execute_query(db_connection, query).fetchone()
+        return render_template('login.html', user=result)  
+    return render_template('login.html')    
+
 
 #@webapp.route('/add_item')
 #def add_item():
