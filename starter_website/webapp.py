@@ -11,7 +11,7 @@ auth_s = URLSafeSerializer("some_password", "some_salt")
 def index():
     return redirect(url_for('login')) 
 
-@webapp.route('/login')
+@webapp.route('/login',methods=['POST','GET'])
 def login():
     if request.method == 'GET':
         db_connection = connect_to_database()
