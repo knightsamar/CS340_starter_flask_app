@@ -28,7 +28,7 @@ def home():
     if 'email' in session:
         email = session['email']
         db_connection = connect_to_database()
-        query = 'SELECT type FROM Final_Users WHERE id = "%s"' % (email)
+        query = 'SELECT type FROM Final_Users WHERE email = "%s"' % (email)
         result = execute_query(db_connection, query).fetchone()    
         page = 'Hello '
         if result == "D":
