@@ -3,8 +3,8 @@
 <h3>Select your user:</h3>
 <form id="users" action="/login" method="post">
     User: <select name="email"> 
-        {% for email in emails %}
-        <option value="{{email}}">{{email}}</option>
+        {% for email_name in emails %}
+        <option value="{{email}}">{{email.name}}</option>
         {% endfor %}
     </select><br>
     <input type="submit" value="Submit">
