@@ -16,7 +16,8 @@ def login():
         db_connection = connect_to_database()
         query = "SELECT email from Final_Users;"
         result = execute_query(db_connection, query).fetchall()
-        return render_template('login.html', emails=result)
+        result_emails = [row[0] for row in result]
+        return render_template('login.html', emails=result_emails)
     elif request.method == 'POST':
         session['user'] = request.form['email']
         return redirect(url_for('home'))
@@ -26,8 +27,10 @@ def login():
 def home():
     if 'user' in session:
         email = session['user']
-        return 'Logged in as' + email + "<br\><a href = '/logout'>Click here to log out</a>"
-    return "You are not logged in <br><a href = '/login'><br>Click here to log in</a>"
+        return 'Logged in as ' + email + "<br>" + \
+            "<a href = '/logout'>Click here to log out</a>"
+    return "You are not logged in<br>" + \
+        "<a href = '/login'>Click here to log in</a>"
 
 #@webapp.route('/add_item')
 #def add_item():
@@ -40,7 +43,7 @@ def home():
 
 @webapp.route('/logout')
 def logout():
-    session.pop('email', None)
+    session.pop('user', None)
     return redirect(url_for('login'))
 
 
