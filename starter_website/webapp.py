@@ -15,7 +15,7 @@ def index():
 def login():
     db_connection = connect_to_database()
     query = "SELECT email from Final_Users;"
-    result = execute_query(db_connection, query);
+    result = execute_query(db_connection, query).fetchall()
     return render_template('login.html', emails=result)
 
 @webapp.route('/home')
