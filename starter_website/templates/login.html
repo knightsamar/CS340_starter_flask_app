@@ -4,6 +4,7 @@
 <form id="users" action="/login" method="post">
     User: <select name="email"> 
         {% for email in emails %}
+        email
         <option value="{{email}}">{{email}}</option>
         {% endfor %}
     </select><br>
