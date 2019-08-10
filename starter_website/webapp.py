@@ -31,11 +31,11 @@ def home():
         result = execute_query(db_connection, query).fetchone()    
         email = session['id']
         page = 'Hello '
-        if result == 'D':
+        if result == "D":
             page += "Driver"
-        elif result == 'F'
+        elif result == "F"
             page += "Manager"
-        elif result == 'C'
+        elif result == "C"
             page += "Customer"
         page += email + "<br>" + \
         "<a href = '/logout'>Click here to log out</a>"
