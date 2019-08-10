@@ -30,7 +30,7 @@ def home():
         db_connection = connect_to_database()
         query = 'SELECT type FROM Final_Users WHERE email = "%s"' % (email)
         result = execute_query(db_connection, query).fetchone()    
-        page = 'Hello '
+        page = 'Hello ' + result
         if result == "D":
             page = page + "Driver"
         elif result == "F":
@@ -39,7 +39,7 @@ def home():
             page = page + "Customer"
         page = page + email + "<br>" + \
         "<a href = '/logout'>Click here to log out</a>"
-        return result
+        return
     return "You are not logged in<br>" + \
         "<a href = '/login'>Click here to log in</a>"
 
