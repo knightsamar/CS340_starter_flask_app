@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, url_for, escape
 from db_connector.db_connector import connect_to_database, execute_query
 from itsdangerous import URLSafeSerializer
 #create the web application
@@ -24,7 +24,7 @@ def login():
 
 @webapp.route('/home')
 def home():
-    if 'email' in session:
+    if 'user' in session:
         email = session['user']
         return 'Logged in as' + email + "<br\><a href = '/logout'>Click here to log out</a>"
     return "You are not logged in <br><a href = '/login'><br>Click here to log in</a>"
