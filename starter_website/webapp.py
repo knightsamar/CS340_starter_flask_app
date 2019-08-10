@@ -19,7 +19,7 @@ def login():
         result_emails = [row[0] for row in result]
         return render_template('login.html', emails=result_emails)
     elif request.method == 'POST':
-        session['id'] = request.form['email']
+        session['email'] = request.form['email']
         return redirect(url_for('home'))
 
 
@@ -27,9 +27,9 @@ def login():
 def home():
     if 'id' in session:
         db_connection = connect_to_database()
-        query = 'SELECT type FROM Final_Users WHERE id = %s' % (id)
+        query = 'SELECT type FROM Final_Users WHERE id = %s' % (email)
         result = execute_query(db_connection, query).fetchone()    
-        email = session['id']
+        email = session['email']
         page = 'Hello '
         if result == "D":
             page += "Driver"
@@ -54,7 +54,7 @@ def home():
 
 @webapp.route('/logout')
 def logout():
-    session.pop('id', None)
+    session.pop('email', None)
     return redirect(url_for('login'))
 
 
