@@ -30,8 +30,8 @@ def home():
         db_connection = connect_to_database()
         query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
         result = execute_query(db_connection, query).fetchone()
-        return render_template('login.html', user=result)  
-    return render_template('login.html')    
+        return render_template('home.html', user=result)  
+    return render_template('home.html')    
 
 
 #@webapp.route('/add_item')
