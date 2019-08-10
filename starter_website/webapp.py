@@ -1,5 +1,4 @@
-from flask import Flask, render_template
-from flask import request, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, url_for
 from db_connector.db_connector import connect_to_database, execute_query
 from itsdangerous import URLSafeSerializer
 #create the web application
