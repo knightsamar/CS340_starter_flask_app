@@ -1,13 +1,87 @@
 <html>
-<head><title>Food Service Management</title></head>
+<head>
+    <title>Food Service Management</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+</head>
 
 {% if user %}
+<!--Welcome Manager of the Food Service to the Page-->
 <h3>
-  Welcome, Manager {{user[2]}} {{user[3]}}
+    Welcome, Manager {{user[2]}} {{user[3]}}
 </h3>
-<a href = '/logout'>Click here to log out</a>
+<!--Present Manager with Their Existing Offerings-->
+<h4>
+    Your Menu:
+</h4>
+<table>
+    <tr>
+        <th>ItemID</th>
+        <th>type</th>
+        <th>foodServiceID</th>
+        <th>itemName</th>
+        <th>itemPrice</th>
+    </tr>
+    {% for food in foods %}
+    <tr>
+        <th>{{food[0]}}</th>
+        <th>{{food[1]}}</th>
+        <th>{{food[2]}}</th>
+        <th>{{food[3]}}</th>
+        <th>{{food[4]}}</th>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<!--Give Manager Option to Add More Foods-->
+<h4> Add New Menu Item:</h4>
+<form id="newfood" action="/F" method="post">
+    Item ID:
+    <input type="number" name="ItemID">
+    <br>
+    Type:
+    <input type="text" name="Type">
+    <br>
+    foodServiceID: <select type="number "name="fSID">
+        {% for fSID in fSIDs %}
+        {{fSID}}
+        <option value="{{fSID}}">{{fSID}}</option>
+        {% endfor %}
+    </select><br>
+    Item Name:
+    <input type="text" name="itemName">
+    <br>
+    Item Price:
+    <input type="number" name="itemPrice">
+    <br>
+    <input type="submit" value="Submit" onClick="window.location.reload();">
+</form>
+
+
+
+
+
+<a href='/logout'>Click here to log out</a>
 {% else %}
-You are not logged in<br>
-<a href = '/login'>Click here to log in</a>
+You are not logged in
+<br>
+<a href='/login'>Click here to log in</a>
 {% endif %}
 </html>
