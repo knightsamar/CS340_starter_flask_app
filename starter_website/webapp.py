@@ -84,9 +84,7 @@ def C():
             return render_template('C.html', user=result)  
         elif result[1] == 'F':
             return render_template('F.html', user=result)  
-    return render_template('home.html')   
->>>>>>> 3c9b653ca5998cb94c1ecff19ec8ef10658d546c
-
+    return render_template('home.html')
 
 @webapp.route('/add_item')
 def add_item():
