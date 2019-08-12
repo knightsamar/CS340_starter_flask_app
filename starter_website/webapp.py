@@ -77,6 +77,7 @@ def C():
         email = session['email']
         query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
         result = execute_query(db_connection, query).fetchone()
+
         if result[1] == 'D':
             return render_template('D.html', user=result)  
         elif result[1] == 'C':
@@ -96,12 +97,11 @@ def search():
     db_connection = connect_to_database()
 
     return render_template('search.html')    
-    return render_template('C.html', user=result)  
-    return render_template('C.html')
 
 
 #@webapp.route('/customer')
 #def add_item():
+
 
 @webapp.route('/change_address')
 def change_address():
