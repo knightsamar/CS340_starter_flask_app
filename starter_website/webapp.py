@@ -47,12 +47,14 @@ def add_item():
 @webapp.route('/search')
 def search():
     db_connection = connect_to_database()
+
     return render_template('search.html')    
 
 @webapp.route('/change_address')
 def change_address():
     db_connection = connect_to_database()
     query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
+
     return render_template('change_address.html')    
 
 @webapp.route('/logout')
