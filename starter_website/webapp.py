@@ -20,16 +20,64 @@ def login():
         return render_template('login.html', emails=result_emails)
     elif request.method == 'POST':
         session['email'] = request.form['email']
-        return redirect(url_for('home'))
+        email = session['email']
+        db_connection = connect_to_database()
+        query = 'SELECT type from Final_Users WHERE email = \'%s\'' % (email)
+        result = execute_query(db_connection, query).fetchone()
+        return redirect(url_for(result[0]))
 
 
-@webapp.route('/home')
-def home():
+@webapp.route('/F',methods=['POST','GET'])
+def F():
+    if 'email' in session:
+        email = session['email']
+    if request.method=='GET':
+        db_connection = connect_to_database()
+        query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
+        result = execute_query(db_connection, query).fetchone()
+        fquery= 'SELECT * FROM Final_MenuItems WHERE foodServiceID IN (SELECT foodServiceID FROM Final_ConnectTo WHERE email = \'%s\')' % (email)
+        fresult = execute_query(db_connection, fquery).fetchall()
+        fSIDquery= 'SELECT foodServiceID FROM Final_ConnectTo WHERE email = \'%s\'' % (email)
+        fSIDresult = execute_query(db_connection, fSIDquery).fetchall()
+        result_fSIDs = [row[0] for row in fSIDresult]
+        return render_template('F.html', user=result, foods=fresult, fSIDs=result_fSIDs)
+    elif request.method == 'POST':
+        session['ItemID'] = request.form['ItemID']
+        ItemID = session['ItemID']
+        session['Type'] = request.form['Type']
+        Type = session['Type']
+        session['fSID'] = request.form['fSID']
+        fSID = session['fSID']
+        session['itemName'] = request.form['itemName']
+        itemName = session['itemName']
+        session['itemPrice'] = request.form['itemPrice']
+        itemPrice = session['itemPrice']
+        db_connection = connect_to_database()
+        query = 'INSERT INTO Final_MenuItems VALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')' % (ItemID,Type,fSID,itemName,itemPrice)
+        execute_query(db_connection, query)
+        equery = 'SELECT type from Final_Users WHERE email = \'%s\'' % (email)
+        result = execute_query(db_connection, equery).fetchone()
+        return redirect(url_for(result[0]))
+    return render_template('F.html')    
+
+@webapp.route('/D')
+def D():
+    if 'email' in session:
+        email = session['email']
+        db_connection = connect_to_database()
+        query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
+        result = execute_query(db_connection, query).fetchall()
+        return render_template('D.html', user=result)  
+    return render_template('D.html')
+
+@webapp.route('/C')
+def C():
     if 'email' in session:
         db_connection = connect_to_database()
         email = session['email']
         query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
         result = execute_query(db_connection, query).fetchone()
+<<<<<<< Updated upstream
         if result[1] == 'D':
             return render_template('D.html', user=result)  
         elif result[1] == 'C':
@@ -49,6 +97,14 @@ def search():
     db_connection = connect_to_database()
 
     return render_template('search.html')    
+=======
+        return render_template('C.html', user=result)  
+    return render_template('C.html')
+
+
+#@webapp.route('/customer')
+#def add_item():
+>>>>>>> Stashed changes
 
 @webapp.route('/change_address')
 def change_address():
