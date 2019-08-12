@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Create an Order</title>
+</head>
+
+{% if user %}
+<h3>
+    Welcome, Customer {{user[2]}} {{user[3]}}
+</h3>
+<a href='/logout'>Click here to log out</a>
+{% else %}
+You are not logged in
+<br>
+<a href='/login'>Click here to log in</a>
+{% endif %}
+</html>

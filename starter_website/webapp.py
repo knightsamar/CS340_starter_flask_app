@@ -26,24 +26,35 @@ def login():
 @webapp.route('/home')
 def home():
     if 'email' in session:
-        email = session['email']
         db_connection = connect_to_database()
+        email = session['email']
         query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
         result = execute_query(db_connection, query).fetchone()
-        return render_template('home.html', user=result)  
+        if result[1] == 'D':
+            return render_template('D.html', user=result)  
+        elif result[1] == 'C':
+            return render_template('C.html', user=result)  
+        elif result[1] == 'F':
+            return render_template('F.html', user=result)  
     return render_template('home.html')    
 
 
 @webapp.route('/add_item')
 def add_item():
+    db_connection = connect_to_database()
     return render_template('add_item.html')    
 
 @webapp.route('/search')
 def search():
+    db_connection = connect_to_database()
+
     return render_template('search.html')    
 
 @webapp.route('/change_address')
 def change_address():
+    db_connection = connect_to_database()
+    query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
+
     return render_template('change_address.html')    
 
 @webapp.route('/logout')
