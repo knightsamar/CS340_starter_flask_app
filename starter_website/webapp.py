@@ -1,6 +1,7 @@
 from flask import Flask, render_template, session, request, redirect, url_for, escape
 from db_connector.db_connector import connect_to_database, execute_query
 from itsdangerous import URLSafeSerializer
+
 #create the web application
 webapp = Flask(__name__)
 webapp.secret_key = 'cs340_2019'
@@ -10,7 +11,7 @@ auth_s = URLSafeSerializer("some_password", "some_salt")
 def index():
     return redirect(url_for('login')) 
 
-@webapp.route('/login',methods=['POST','GET'])
+@webapp.route('/login', methods=['POST','GET'])
 def login():
     if request.method == 'GET':
         db_connection = connect_to_database()
@@ -23,38 +24,46 @@ def login():
         return redirect(url_for('home'))
 
 
-@webapp.route('/home')
+@webapp.route('/home', methods=['POST','GET'])
 def home():
     if 'email' in session:
         db_connection = connect_to_database()
         email = session['email']
-        query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
-        result = execute_query(db_connection, query).fetchone()
+        user_query = 'SELECT * FROM Final_Users NATURAL JOIN Final_ConnectTo WHERE email = \'%s\'' % (email)
+        user_result = execute_query(db_connection, user_query).fetchone()
         if result[1] == 'D':
-            return render_template('D.html', user=result)  
-        elif result[1] == 'C':
-            return render_template('C.html', user=result)  
-        elif result[1] == 'F':
-            return render_template('F.html', user=result)  
+            return render_template('D.html', user=user_result)  
+        elif user_result[1] == 'C':
+            return render_template('C.html', user=user_result)  
+        elif user_result[1] == 'F':
+            if request.method == 'POST':
+                item = request.form['newfood']
+                data = (item[0], user_result[4], item[1], item[2])
+                query = 'INSERT INTO Final_MenuItems (type, foodServiceID, itemName, itemPrice) VALUES (%s,%s,%s,%s)'
+            else:
+                item_query = 'SELECT * FROM Final_MenuItems WHERE foodServiceID = \'%s\'' % (user_result[4])
+                item_result = execute_query(db_connection, user_query).fetchall()
+                return render_template('F.html', food=item_result)  
     return render_template('home.html')    
 
 
 @webapp.route('/add_item')
 def add_item():
     db_connection = connect_to_database()
+    email = session['email']
     return render_template('add_item.html')    
 
 @webapp.route('/search')
 def search():
     db_connection = connect_to_database()
-
+    email = session['email']
     return render_template('search.html')    
 
 @webapp.route('/change_address')
 def change_address():
     db_connection = connect_to_database()
+    email = session['email']
     query = 'SELECT * FROM Final_Users WHERE email = \'%s\'' % (email)
-
     return render_template('change_address.html')    
 
 @webapp.route('/logout')

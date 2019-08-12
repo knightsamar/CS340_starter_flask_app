@@ -32,17 +32,13 @@
 </h4>
 <table>
     <tr>
-        <th>ItemID</th>
         <th>type</th>
-        <th>foodServiceID</th>
         <th>itemName</th>
         <th>itemPrice</th>
     </tr>
     {% for food in foods %}
     <tr>
-        <th>{{food[0]}}</th>
         <th>{{food[1]}}</th>
-        <th>{{food[2]}}</th>
         <th>{{food[3]}}</th>
         <th>{{food[4]}}</th>
     </tr>
@@ -52,19 +48,11 @@
 
 <!--Give Manager Option to Add More Foods-->
 <h4> Add New Menu Item:</h4>
-<form id="newfood" action="/F" method="post">
-    Item ID:
-    <input type="number" name="ItemID">
+<form id="newfood" action="/home" method="post">
     <br>
     Type:
     <input type="text" name="Type">
     <br>
-    foodServiceID: <select type="number "name="fSID">
-        {% for fSID in fSIDs %}
-        {{fSID}}
-        <option value="{{fSID}}">{{fSID}}</option>
-        {% endfor %}
-    </select><br>
     Item Name:
     <input type="text" name="itemName">
     <br>
