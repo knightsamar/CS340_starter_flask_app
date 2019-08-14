@@ -5,6 +5,7 @@ from flask_bootstrap import Bootstrap
 #create the web application
 webapp = Flask(__name__)
 webapp.secret_key = 'cs340_2019'
+Bootstrap(webapp)
 
 @webapp.route('/')
 def index():
