@@ -1,12 +1,10 @@
 from flask import Flask, render_template, session, request, redirect, url_for, escape
 from db_connector.db_connector import connect_to_database, execute_query
 from flask_bootstrap import Bootstrap
-from itsdangerous import URLSafeSerializer
 
 #create the web application
 webapp = Flask(__name__)
 webapp.secret_key = 'cs340_2019'
-auth_s = URLSafeSerializer("some_password", "some_salt")
 
 @webapp.route('/')
 def index():
