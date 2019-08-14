@@ -15,7 +15,6 @@ def mynavbar():
     return Navbar(
         'Food Delivery Inc.',
         View('Login', 'login'),
-        View('Customer Home', 'C'),
         View('Logout', 'logout')
     )
 
