@@ -7,3 +7,5 @@ MarkupSafe==1.1.0
 mysqlclient==1.3.13
 waitress==1.2.0
 Werkzeug==0.14.1
+flask_bootstrap
+
