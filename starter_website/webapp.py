@@ -1,11 +1,23 @@
 from flask import Flask, render_template, session, request, redirect, url_for, escape
 from db_connector.db_connector import connect_to_database, execute_query
 from flask_bootstrap import Bootstrap
+from flask_nav import Nav
+from flask_nav.elements import Navbar, View
+
+nav = Nav()
 
 #create the web application
 webapp = Flask(__name__)
 webapp.secret_key = 'cs340_2019'
-Bootstrap(webapp)
+
+@nav.navigation()
+def mynavbar():
+    return Navbar(
+        'Food Delivery Inc.',
+        View('Login', 'login'),
+        View('Customer Home', 'C'),
+        View('Logout', 'logout')
+    )
 
 @webapp.route('/')
 def index():
@@ -115,6 +127,9 @@ def logout():
     session.pop('email', None)
     return redirect(url_for('login'))
 
+
+Bootstrap(webapp)
+nav.init_app(webapp)
 
 # @webapp.route('/browse_bsg_people')
 # #the name of this function is just a cosmetic thing
