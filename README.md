@@ -22,7 +22,7 @@ The other piece is that your MySQL database that you will be using will need to 
 You should make a new directory in your OSU engineering space, e.g. `mkdir ~/cs340/`. Then from within that directory run the command:
 
 ```bash
-git clone https://github.com/knightsamar/CS340_starter_flask_app ./
+git clone https://github.com/knightsamar/CS340_starter_flask_app
 ```
 
 Note that this repository has 2 webapps:
