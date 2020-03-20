@@ -19,5 +19,5 @@ def test_database_connection():
     print("Executing a sample query on the database using the credentials from db_credentials.py")
     db_connection = connect_to_database()
     query = "SELECT * from bsg_people;"
-    result = execute_query(db_connection, query);
+    result = execute_query(db_connection, query)
     return render_template('db_test.html', rows=result)

@@ -5,6 +5,7 @@
 <h3>Current people</h3>
 <table border='1'>
     <thead>
+        <th>ID</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Homeworld</th>
@@ -13,12 +14,12 @@
     <tbody>
       {% for r in rows %}
       <tr>
+        <td> {{ r[4] }}</td>
         <td> {{ r.0 }}</td>
         <td> {{ r[1] }}</td>
         <td> {{ r[2] }}</td>
         <td> {{ r[3] }}</td>
-        <td> <input type='button' name='Update' value='Update'
-            onclick="window.location = '/update_people/{{r[4]}}'"> </td>
+        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_people/{{r[4]}}'"> </td>
         <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[4]}}'"> </td>
       </tr>
       {% endfor %}
