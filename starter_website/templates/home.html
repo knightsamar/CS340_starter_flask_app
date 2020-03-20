@@ -1,2 +1,9 @@
 <h1>MySQL Results:</h1>
-<p>{{results}}</p>
+<p>
+{% for r in result %}
+    <div>
+        {{r}}
+    </div>
+{% endfor %}
+
+</p>
