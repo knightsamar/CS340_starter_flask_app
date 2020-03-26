@@ -2,8 +2,9 @@
 
 #change this line to run the app that you want to run
 #from db_connector.sample import app
-from starter_website.webapp import webapp
 #for example, the above line tells to run the sample db connection app in db_connector/ directory
+from starter_website.webapp import webapp
+#from step0.webapp import webapp
 
 #then from the commandline run:
 #./venv/bin/activate
