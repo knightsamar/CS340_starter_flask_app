@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <title>The Classroom Organizer</title>
+</head>
+
+<body>
+
+    <h1>The Classroom Organizer - Update Teacher</h1>
+    <hr />
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/teachers">View Teachers</a></li>
+            <li><a href="/classes">View Classes</a></li>
+            <li><a href="/students">View Students</a></li>
+            <li><a href="/grades">View Grades</a></li>
+        </ul>
+    </nav>
+    <hr />
+
+
+    <!-- Form for Editing Teachers -->
+    <h2>Edit Teacher:</h2>
+    <form id="add_teacher" action="/update_teacher/{{teach[0][0]}}" method=POST>
+        <label for="first_name">First Name:</label><br />
+        <input type="text" id="first_name" name="first_name" /><br />
+        <label for="last_name">Last Name:</label><br />
+        <input type="text" id="last_name" name="lname" /><br />
+        <input type="submit" value="Submit" />
+    </form>
+
+
+</body>
+
+</html>

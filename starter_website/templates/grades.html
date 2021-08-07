@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Grades</h1>
+    <hr />
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/teachers">View Teachers</a></li>
+            <li><a href="/classes">View Classes</a></li>
+            <li><a href="/students">View Students</a></li>
+            <li><a href="/grades">View Grades</a></li>
+        </ul>
+    </nav>
+    <hr />
+    <form>
+        <h2>Add Grade:</h2>
+        <label for="student_name">Student Name</label><br />
+        <input type="text" id="student_name" name="student_name" /><br />
+        <label for="class_name">Class Name</label><br />
+        <input type="text" id="class_name" name="class_name" /><br />
+        <label for="grade_number">Grade</label><br />
+        <input type="text" id="grade_number" name="grade_number"> <br />
+
+        <input type="submit" value="Submit" />
+    </form>
+    <h2>Grades:</h2>
+    <table>
+        <thead>
+            <th>Student Name:</th>
+            <th>Class Name:</th>
+            <th>Grade:</th>
+
+            <th></th>
+        </thead>
+        <tbody>
+            {% for g in grade_result %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{{ r[1]}}</td>
+                <!-- <td> <input type='button' name='Edit' value='Edit'
+                        onclick="window.location = '/update_people/{{r[0]}}'"> </td>
+                <td> <input type='button' name='Delete' value='Delete'
+                        onclick="window.location = '/delete_people/{{r[0]}}'"> </td> -->
+
+            </tr>
+
+        </tbody>
+
+    </table>
+</body>
+
+</html>

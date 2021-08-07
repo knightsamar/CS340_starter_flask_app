@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>The Classroom Organizer</title>
+</head>
+
+<body>
+
+    <h1>The Classroom Organizer - Students</h1>
+    <hr />
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/teachers">View Teachers</a></li>
+            <li><a href="/classes">View Classes</a></li>
+            <li><a href="/students">View Students</a></li>
+            <li><a href="/grades">View Grades</a></li>
+        </ul>
+    </nav>
+    <hr />
+
+    <form>
+        <h2>Add Student:</h2>
+        <label for="student">First Name:</label><br />
+        <input type="text" id="first_name" name="first_name" /><br />
+        <label for="last_name">Last Name:</label><br />
+        <input type="text" id="last_name" name="last_name" /><br />
+        <input type="submit" value="Submit" />
+    </form>
+    <h2>Students:</h2>
+    <table>
+        <tr>
+            <th>First Name:</th>
+            <th>Last Name:</th>
+            <th>Classes / Grades</th>
+
+            <th></th>
+        </tr>
+        <tr>
+            <td>Jane</td>
+            <td>Doe</td>
+            <td>
+                <ul>
+                    <li>CS161 : 100</li>
+                    <li>CS162 : 100</li>
+                </ul>
+            </td>
+
+            <td>
+                <button>Edit</button>
+                <button>Delete</button>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
