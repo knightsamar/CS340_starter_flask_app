@@ -47,14 +47,12 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td>{{ r[1]}}</td>
-                <!-- <td> <input type='button' name='Edit' value='Edit'
-                        onclick="window.location = '/update_people/{{r[0]}}'"> </td>
+                <td>{{ g[1]}}</td>
                 <td> <input type='button' name='Delete' value='Delete'
-                        onclick="window.location = '/delete_people/{{r[0]}}'"> </td> -->
+                    onclick="window.location = '/delete_grade/{{g[0]}}'"> </td>
 
             </tr>
-
+            {% endfor %}
         </tbody>
 
     </table>

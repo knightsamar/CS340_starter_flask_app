@@ -98,6 +98,14 @@ def delete_teacher(id):
 
     result = execute_query(db_connection, query, data)
     return redirect('/teachers')
+@webapp.route('/delete_grade/<int:id>')
+def delete_grade(id):
+    db_connection = connect_to_database()
+    query = "DELETE from Grades where grade_id = %s;"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    return redirect('/grades')
 @webapp.route('/grades')
 def grades_view():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
@@ -105,7 +113,7 @@ def grades_view():
     query = "SELECT * from Grades;"
     result = execute_query(db_connection, query).fetchall()
     
-    print(result, teach_result)
+    # print(result, teach_result)
   
     return render_template('grades.html', grade_result = result)
 
