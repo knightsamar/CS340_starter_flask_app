@@ -112,8 +112,21 @@ def grades_view():
 @webapp.route('/students')
 def students_view():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
-    return render_template('students.html')
+    db_connection = connect_to_database()
+    query = "SELECT * from Students;"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+ 
+    return render_template('students.html', rows=result)
+@webapp.route('/delete_class/<int:id>')
+def delete_class(id):
+    '''deletes a class with the given id'''
+    db_connection = connect_to_database()
+    query = "DELETE from Classes where class_id = %s;"
+    data = (id,)
 
+    result = execute_query(db_connection, query, data)
+    return redirect('/classes')
 @webapp.route('/add_class', methods=['POST','GET'])
 def add_class():
     db_connection = connect_to_database()
@@ -123,15 +136,18 @@ def add_class():
         result = execute_query(db_connection, query).fetchall()
         print(result)
     elif request.method == 'POST':
-        # print(request.form)
-        first_name = request.form['first_name']
-        last_name = request.form['lname']
-        teacher_class_list_id = 0
-        query = "INSERT INTO Teachers (first_name, last_name, teacher_class_list_id) VALUES (%s,%s,%s);"
-        data = (first_name, last_name, teacher_class_list_id)
+        print(request.form)
+        name = request.form['title']
+        teacher_id = request.form['teacher']
+        student_list_id = 0
+        query = "INSERT INTO Classes (name, teacher_id, student_list_id) VALUES (%s,%s,%s);"
+        data = (name, teacher_id, student_list_id)
         execute_query(db_connection, query, data)
-       
-        return redirect('/teachers')
+        query2 = "SELECT Last_INSERT_ID();"
+        result = execute_query(db_connection, query2).fetchall()
+        # create_class_result = execute_query(db_connection, query2).fetchall()
+        print(result[0])
+        return redirect('/classes')
 @webapp.route('/classes')
 def classes_view():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"

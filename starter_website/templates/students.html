@@ -34,15 +34,24 @@
     </form>
     <h2>Students:</h2>
     <table>
-        <tr>
+        <thead>
             <th>First Name:</th>
             <th>Last Name:</th>
             <th>Classes / Grades</th>
 
             <th></th>
-        </tr>
-        <tr>
-            <td>Jane</td>
+        </thead>
+           
+        
+      <tbody>
+        {% for r in rows %}
+          <tr>
+              <td>{{ r[1] }}</td>
+              <td>{{ r[2] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+            <!-- <td>Jane</td>
             <td>Doe</td>
             <td>
                 <ul>
@@ -55,7 +64,7 @@
                 <button>Edit</button>
                 <button>Delete</button>
             </td>
-        </tr>
+        </tr> -->
     </table>
 </body>
 

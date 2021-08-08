@@ -29,9 +29,12 @@
         <label for="title">Class Title:</label><br />
         <input type="text" id="title" name="title" /><br />
         <label for="teacher">Teacher:</label><br />
-        <select id="teacher">
-            <option value="example1">Example 1</option>
-            <option value="example2">Example 2</option>
+        <select id="teacher" name="teacher">
+            {% for t in result[1] %}
+            <option value = {{ t[0] }} > {{t[1]}} {{t[2]}}</option>
+            <!-- <option value="example1">Example 1</option>
+            <option value="example2">Example 2</option> -->
+            {% endfor %}
         </select><br />
         <input type="submit" value="Submit" />
     </form>
@@ -53,6 +56,11 @@
                 <td>{{ t[1]}} {{t[2]}}</td>
                     {% endif %}
                 {% endfor %}
+                <!-- <td> <input type='button' name='Edit' value='Edit'
+                    onclick="window.location = '/update_class/{{c[0]}} '"> </td> -->
+            <td> <input type='button' name='Delete' value='Delete'
+                    onclick="window.location = '/delete_class/{{c[0]}}'"> </td>
+
             </tr>
             {% endfor %}
       </tbody>
