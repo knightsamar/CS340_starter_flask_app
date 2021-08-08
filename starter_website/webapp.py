@@ -104,7 +104,8 @@ def grades_view():
     db_connection = connect_to_database()
     query = "SELECT * from Grades;"
     result = execute_query(db_connection, query).fetchall()
-    print(result)
+    
+    print(result, teach_result)
   
     return render_template('grades.html', grade_result = result)
 
@@ -113,10 +114,35 @@ def students_view():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
     return render_template('students.html')
 
+@webapp.route('/add_class', methods=['POST','GET'])
+def add_class():
+    db_connection = connect_to_database()
+
+    if request.method == 'GET':
+        query = 'SELECT id, name from bsg_planets'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+    elif request.method == 'POST':
+        # print(request.form)
+        first_name = request.form['first_name']
+        last_name = request.form['lname']
+        teacher_class_list_id = 0
+        query = "INSERT INTO Teachers (first_name, last_name, teacher_class_list_id) VALUES (%s,%s,%s);"
+        data = (first_name, last_name, teacher_class_list_id)
+        execute_query(db_connection, query, data)
+       
+        return redirect('/teachers')
 @webapp.route('/classes')
 def classes_view():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
-    return render_template('classes.html')
+    db_connection = connect_to_database()
+    query = "SELECT * from Classes;"
+    result = execute_query(db_connection, query).fetchall()
+    query2 = "SELECT * from Teachers;"
+    teach_result = execute_query(db_connection, query2).fetchall()
+    teach_class = (result, teach_result)
+    # print(result, teach_result)
+    return render_template('classes.html', result = teach_class)
 @webapp.route('/')
 def index():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"

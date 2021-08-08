@@ -23,9 +23,9 @@
         </ul>
     </nav>
     <hr />
-
-    <form>
-        <h2>Add Class</h2>
+    <h2>Add Class</h2>
+    <form id="add_class" action="/add_class" method = "POST">
+        
         <label for="title">Class Title:</label><br />
         <input type="text" id="title" name="title" /><br />
         <label for="teacher">Teacher:</label><br />
@@ -37,28 +37,26 @@
     </form>
     <h2>Classes:</h2>
     <table>
-        <tr>
+        <thead>
+            
             <th>Class Name</th>
             <th>Teacher</th>
             <th>Student List</th>
             <th></th>
-        </tr>
-        <tr>
-            <td>CS161</td>
-            <td>Jill Smith</td>
-            <td>
-                <ul>
-                    <li>John Doe</li>
-                    <li>Jane Doe</li>
-                    <li>John Smith</li>
-                    <li>Jane Smith</li>
-                </ul>
-            </td>
-            <td>
-                <button>Edit</button>
-                <button>Delete</button>
-            </td>
-        </tr>
+        </thead>
+      <tbody>
+            {% for c in result[0] %}
+            <tr>
+                <td>{{ c[1]}}</td>
+                {% for t in result[1] %}
+                    {% if c[2] == t[0] %}
+                <td>{{ t[1]}} {{t[2]}}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+      </tbody>
+           
     </table>
 </body>
 
