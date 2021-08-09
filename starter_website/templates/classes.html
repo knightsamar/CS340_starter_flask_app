@@ -50,14 +50,23 @@
       <tbody>
             {% for c in result[0] %}
             <tr>
-                <td>{{ c[1]}}</td>
-                <td>{{ c[3]}} {{c[4]}}</td>
+                <td>{{ c[0][1]}}</td>
+                <td>{{ c[0][3]}} {{c[0][4]}}</td>
+                <td>
+                    {% if c[1] %}
+                    <ul>
+                        {% for s in c[1]%}
+                            <li>{{ s[1]}} {{ s[2]}}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
                 <!-- <td> <input type='button' name='Edit' value='Edit'
                     onclick="window.location = '/update_class/{{c[0]}} '"> </td> -->
                     <td> <input type='button' name='Edit' value='Edit'
-                        onclick="window.location = '/update_class/{{c[0]}} '"> </td>
+                        onclick="window.location = '/update_class/{{c[0][0]}} '"> </td>
             <td> <input type='button' name='Delete' value='Delete'
-                    onclick="window.location = '/delete_class/{{c[0]}}'"> </td>
+                    onclick="window.location = '/delete_class/{{c[0][0]}}'"> </td>
 
             </tr>
             {% endfor %}

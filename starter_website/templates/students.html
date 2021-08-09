@@ -23,13 +23,19 @@
         </ul>
     </nav>
     <hr />
-
-    <form>
-        <h2>Add Student:</h2>
+    <h2>Add Student:</h2>
+    <form id="add_student" action="/add_student" method=POST>
+       
         <label for="student">First Name:</label><br />
         <input type="text" id="first_name" name="first_name" /><br />
         <label for="last_name">Last Name:</label><br />
         <input type="text" id="last_name" name="last_name" /><br />
+        <label for="classes">Classes:</label> <br/>
+
+        {% for c in rows[1] %}
+           
+            <input type="checkbox" name="classes" value= {{ c[0]}}>{{ c[1]}} <br/>
+        {% endfor %}
         <input type="submit" value="Submit" />
     </form>
     <h2>Students:</h2>
@@ -37,7 +43,7 @@
         <thead>
             <th>First Name:</th>
             <th>Last Name:</th>
-            <th>Classes / Grades</th>
+            <th>Classes</th>
 
             <th></th>
         </thead>
@@ -46,9 +52,17 @@
       <tbody>
         {% for r in rows[0] %}
           <tr>
-              <td>{{ r[1] }}</td>
-              <td>{{ r][2] }}</td>
+              <td>{{ r[0][1] }}</td>
+              <td>{{ r[0][2] }}</td>
+            <td>
+                <ul>
+                    {% for c in r[1] %}
+                    <li>{{ c[1]}}</li>
+                    {% endfor %}
+                </ul>
+              
 
+            </td>
           </tr>
         {% endfor %}
       </tbody>
