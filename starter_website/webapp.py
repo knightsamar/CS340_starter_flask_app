@@ -197,7 +197,38 @@ def add_class():
         # create_class_result = execute_query(db_connection, query2).fetchall()
         
         return redirect('/classes')
+@webapp.route('/update_class/<int:id>', methods=['POST','GET'])
+def update_class(id):
+    db_connection = connect_to_database()
 
+    if request.method == 'GET':
+        query = 'SELECT * from Classes WHERE class_id = %s;' % (id)
+        result = execute_query(db_connection, query).fetchall()
+
+        query2 = "SELECT * from Teachers;"
+        result2 = execute_query(db_connection, query2).fetchall()
+        result = (result, result2)
+     
+        return render_template('update_class.html', result=result)
+    elif request.method == 'POST':
+        print(request.form, 'post')
+        name = request.form['class_name']
+        teacher_class_list_id = request.form['teacher']
+     
+        query = "DELETE from TeacherClassList where class_id = %s;"
+        data = (id,)
+        execute_query(db_connection, query, data)
+        query2 = "UPDATE Classes SET name = %s WHERE class_id = %s;"
+        data = (name, id,)
+        execute_query(db_connection, query2, data)
+        query3 = "INSERT INTO TeacherClassList (teacher_class_list_id, class_id) VALUES (%s, %s);"
+        data = (teacher_class_list_id, id,)
+        execute_query(db_connection, query3, data)
+        # query = "UPDATE Teachers SET first_name = %s , last_name = %s WHERE teacher_id = %s " 
+        # data = (first_name, last_name, id)
+        
+
+        return redirect('/classes')
 @webapp.route('/classes')
 def classes_view():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"

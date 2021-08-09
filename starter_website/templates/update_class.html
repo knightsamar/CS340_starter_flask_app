@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Classroom Organizer</title>
+</head>
+<body>
+    <h1>The Classroom Organizer - Update Class</h1>
+    <hr />
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/teachers">View Teachers</a></li>
+            <li><a href="/classes">View Classes</a></li>
+            <li><a href="/students">View Students</a></li>
+            <li><a href="/grades">View Grades</a></li>
+        </ul>
+    </nav>
+    <hr />
+    <h2>Edit Class:</h2>
+    <form id="update_class" action="/update_class/{{result[0][0][0]}}" method=POST>
+        <label for="first_name">Class Name</label><br />
+        <input type="text" id="class_name" name="class_name" /><br />
+        <label for="teacher">Teacher:</label><br />
+        <select id="teacher" name="teacher">
+            {% for t in result[1] %}
+            <option value = {{ t[0] }} > {{t[1]}} {{t[2]}}</option>
+            <!-- <option value="example1">Example 1</option>
+            <option value="example2">Example 2</option> -->
+            {% endfor %}
+        </select><br />
+        <!-- <label for="last_name">Last Name:</label><br />
+        <input type="text" id="last_name" name="lname" /><br /> -->
+        <input type="submit" value="Submit" />
+    </form>
+
+</body>
+</html>
