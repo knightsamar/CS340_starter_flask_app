@@ -153,10 +153,23 @@ def grades_view():
     query2 = "SELECT * from Students;"
     result2 = execute_query(db_connection, query2).fetchall()
     grades_res = (result, result2)
-    print(grades_res)
+    # print(grades_res)
    
   
     return render_template('grades.html', grade_result = grades_res)
+@webapp.route('/delete_student/<int:id>')
+def delete_student(id):
+    '''deletes a student with the given id'''
+    db_connection = connect_to_database()
+    query1 = "DELETE from StudentList where student_id = %s;"
+    data = (id,)
+    result1 = execute_query(db_connection, query1, data)
+    query2 = "DELETE from Students where student_id = %s;"
+    result2 = execute_query(db_connection, query2, data)
+   
+
+   
+    return redirect('/students')
 @webapp.route('/add_student', methods=['POST','GET'])
 def add_student():
     db_connection = connect_to_database()
@@ -226,11 +239,9 @@ def students_view():
             class_list.append(result5[0])
         student = result[i], class_list
         student_list.append(student)
-    # print(student_list)
+ 
     result = student_list, result2
-    # for r in result[0]:
-    #     print(r, 'r')
-    # print(result, 'student result')
+  
     return render_template('students.html', rows=result)
 
 @webapp.route('/delete_class/<int:id>')
