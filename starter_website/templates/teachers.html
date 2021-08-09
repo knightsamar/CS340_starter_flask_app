@@ -44,10 +44,15 @@
             <th></th>
         </thead>
         <tbody>
-            {% for r in rows %}
+            {% for r in rows[0] %}
             <tr>
                 <td>{{ r[1]}}</td>
                 <td>{{ r[2]}}</td>
+                <!-- <td>
+                    <ul>
+                        {for t in rows[]}
+                    </ul>
+                </td> -->
                 <td> <input type='button' name='Edit' value='Edit'
                         onclick="window.location = '/update_teacher/{{r[0]}} '"> </td>
                 <td> <input type='button' name='Delete' value='Delete'

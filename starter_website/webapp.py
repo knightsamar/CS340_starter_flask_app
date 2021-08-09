@@ -50,6 +50,11 @@ def teachers_view():
     db_connection = connect_to_database()
     query = "SELECT * from Teachers;"
     result = execute_query(db_connection, query).fetchall()
+    query2 = "SELECT * from TeacherClassList"
+    result2 = execute_query(db_connection, query2).fetchall()
+    query3 = "SELECT * from Classes"
+    result3 = execute_query(db_connection, query3).fetchall()
+    result = result, result2, result3
     print(result)
     return render_template('teachers.html', rows=result)
 @webapp.route('/update_teacher/<int:id>', methods=['POST','GET'])
@@ -83,9 +88,8 @@ def add_teacher():
         # print(request.form)
         first_name = request.form['first_name']
         last_name = request.form['lname']
-        teacher_class_list_id = 0
-        query = "INSERT INTO Teachers (first_name, last_name, teacher_class_list_id) VALUES (%s,%s,%s);"
-        data = (first_name, last_name, teacher_class_list_id)
+        query = "INSERT INTO Teachers (first_name, last_name) VALUES (%s,%s);"
+        data = (first_name, last_name)
         execute_query(db_connection, query, data)
        
         return redirect('/teachers')
@@ -93,11 +97,36 @@ def add_teacher():
 def delete_teacher(id):
     '''deletes a teacher with the given id'''
     db_connection = connect_to_database()
+    query1 = "DELETE from TeacherClassList where teacher_class_list_id = %s;"
+    data = (id,)
+    execute_query(db_connection, query1, data)
     query = "DELETE from Teachers where teacher_id = %s;"
     data = (id,)
 
     result = execute_query(db_connection, query, data)
     return redirect('/teachers')
+# Grades
+@webapp.route('/add_grade', methods=['POST','GET'])
+def add_grade():
+    db_connection = connect_to_database()
+
+    if request.method == 'GET':
+        query = 'SELECT id, name from bsg_planets'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+    elif request.method == 'POST':
+        print(request.form)
+        # name = request.form['title']
+        # teacher_id = request.form['teacher']
+        # student_list_id = 0
+        # query = "INSERT INTO Classes (name, teacher_id, student_list_id) VALUES (%s,%s,%s);"
+        # data = (name, teacher_id, student_list_id)
+        # execute_query(db_connection, query, data)
+        # query2 = "SELECT Last_INSERT_ID();"
+        # result = execute_query(db_connection, query2).fetchall()
+        # # create_class_result = execute_query(db_connection, query2).fetchall()
+        # print(result[0])
+        return redirect('/grades')
 @webapp.route('/delete_grade/<int:id>')
 def delete_grade(id):
     db_connection = connect_to_database()
@@ -112,10 +141,13 @@ def grades_view():
     db_connection = connect_to_database()
     query = "SELECT * from Grades;"
     result = execute_query(db_connection, query).fetchall()
-    
+    query2 = "SELECT * from Students;"
+    result2 = execute_query(db_connection, query2).fetchall()
+    grades_res = (result, result2)
+    print(grades_res)
     # print(result, teach_result)
   
-    return render_template('grades.html', grade_result = result)
+    return render_template('grades.html', grade_result = grades_res)
 
 @webapp.route('/students')
 def students_view():
@@ -130,6 +162,9 @@ def students_view():
 def delete_class(id):
     '''deletes a class with the given id'''
     db_connection = connect_to_database()
+    query1 = "DELETE from TeacherClassList where class_id = %s;"
+    data = (id,)
+    result1 = execute_query(db_connection, query1, data)
     query = "DELETE from Classes where class_id = %s;"
     data = (id,)
 
@@ -147,15 +182,22 @@ def add_class():
         print(request.form)
         name = request.form['title']
         teacher_id = request.form['teacher']
-        student_list_id = 0
-        query = "INSERT INTO Classes (name, teacher_id, student_list_id) VALUES (%s,%s,%s);"
-        data = (name, teacher_id, student_list_id)
+    
+        query = "INSERT INTO Classes (name) VALUES (%s);"
+        data = (name,)
         execute_query(db_connection, query, data)
-        query2 = "SELECT Last_INSERT_ID();"
-        result = execute_query(db_connection, query2).fetchall()
+        query2 = "SELECT LAST_INSERT_ID() LIMIT 1;"
+        class_id = execute_query(db_connection, query2).fetchall()
+        class_id = class_id[0][0]
+        teacher_class_list_id = teacher_id
+        # print(class_id)
+        query3 = "INSERT INTO TeacherClassList (teacher_class_list_id, class_id) VALUES (%s, %s);"
+        data = (teacher_class_list_id, class_id)
+        execute_query(db_connection, query3, data)
         # create_class_result = execute_query(db_connection, query2).fetchall()
-        print(result[0])
+        
         return redirect('/classes')
+
 @webapp.route('/classes')
 def classes_view():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
@@ -164,9 +206,31 @@ def classes_view():
     result = execute_query(db_connection, query).fetchall()
     query2 = "SELECT * from Teachers;"
     teach_result = execute_query(db_connection, query2).fetchall()
-    teach_class = (result, teach_result)
+    # print(len(result))
+    final_results = []
+    for i in range(0, len(result)):
+        # print(result[i])
+    #     print(class)
+        # print(result[i][0])
+        query3 = "SELECT * from TeacherClassList where class_id = %s;"
+        data = (result[i][0],)
+        result2 = execute_query(db_connection, query3, data).fetchall()
+        query4 = "SELECT * from Teachers where teacher_id = %s;"
+        # print(len(result2))
+        print(result2)
+        # print(result2[0][0])
+        data = (result2[0][0],)
+        result3 = execute_query(db_connection, query4, data).fetchall()
+        # result3[0][2]
+        # print(result3[0][2])
+        join_result = (result[i][0], result[i][1], result3[0][0], result3[0][1], result3[0][2])
+        final_results.append(join_result)
+    final_results = (final_results, teach_result)
+    print(final_results[1])
+    # print(final_results)
+    # teach_class = (result, teach_result)
     # print(result, teach_result)
-    return render_template('classes.html', result = teach_class)
+    return render_template('classes.html', result = final_results)
 @webapp.route('/')
 def index():
     # return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"

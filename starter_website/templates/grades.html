@@ -22,14 +22,20 @@
         </ul>
     </nav>
     <hr />
-    <form>
-        <h2>Add Grade:</h2>
+    <h2>Add Grade:</h2>
+    <form id ="add_grade" action="/add_grade" method = "POST" >
+       
         <label for="student_name">Student Name</label><br />
-        <input type="text" id="student_name" name="student_name" /><br />
+        <select id ="student_name" name = "student_name">
+            {% for s in grade_result[1] %}
+            <option value = {{ s[0] }} > {{s[1]}} {{s[2]}}</option>
+            {% endfor %}
+        </select><br />
+        <!-- <input type="text" id="student_name" name="student_name" /><br />
         <label for="class_name">Class Name</label><br />
         <input type="text" id="class_name" name="class_name" /><br />
         <label for="grade_number">Grade</label><br />
-        <input type="text" id="grade_number" name="grade_number"> <br />
+        <input type="text" id="grade_number" name="grade_number"> <br /> -->
 
         <input type="submit" value="Submit" />
     </form>
@@ -43,7 +49,7 @@
             <th></th>
         </thead>
         <tbody>
-            {% for g in grade_result %}
+            {% for g in grade_result[0] %}
             <tr>
                 <td></td>
                 <td></td>

@@ -51,11 +51,7 @@
             {% for c in result[0] %}
             <tr>
                 <td>{{ c[1]}}</td>
-                {% for t in result[1] %}
-                    {% if c[2] == t[0] %}
-                <td>{{ t[1]}} {{t[2]}}</td>
-                    {% endif %}
-                {% endfor %}
+                <td>{{ c[3]}} {{c[4]}}</td>
                 <!-- <td> <input type='button' name='Edit' value='Edit'
                     onclick="window.location = '/update_class/{{c[0]}} '"> </td> -->
             <td> <input type='button' name='Delete' value='Delete'
