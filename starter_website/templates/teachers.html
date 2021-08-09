@@ -44,19 +44,28 @@
             <th></th>
         </thead>
         <tbody>
-            {% for r in rows[0] %}
+            {% for r in rows %}
             <tr>
-                <td>{{ r[1]}}</td>
-                <td>{{ r[2]}}</td>
+                <td>{{ r[0][1]}}</td>
+                <td>{{ r[0][2]}}</td>
+                <td>
+                    <ul>
+                        {% for class in r[1]%}
+                        <li>{{class[0][1]}}</li>
+                        {% endfor %}
+                    </ul>
+                    
+
+                </td>
                 <!-- <td>
                     <ul>
                         {for t in rows[]}
                     </ul>
                 </td> -->
                 <td> <input type='button' name='Edit' value='Edit'
-                        onclick="window.location = '/update_teacher/{{r[0]}} '"> </td>
+                        onclick="window.location = '/update_teacher/{{r[0][0]}} '"> </td>
                 <td> <input type='button' name='Delete' value='Delete'
-                        onclick="window.location = '/delete_teacher/{{r[0]}}'"> </td>
+                        onclick="window.location = '/delete_teacher/{{r[0][0]}}'"> </td>
 
             </tr>
             {% endfor %}
