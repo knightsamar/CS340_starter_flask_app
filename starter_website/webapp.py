@@ -89,7 +89,7 @@ def update_teacher(id):
         first_name = request.form['first_name']
         last_name = request.form['lname']
        
-        query = "UPDATE Teachers SET first_name = %s , last_name = %s WHERE teacher_id = %s " 
+        query = "UPDATE Teachers SET first_name = %s , last_name = %s WHERE teacher_id = %s; " 
         data = (first_name, last_name, id)
         execute_query(db_connection, query, data)
 
@@ -201,17 +201,92 @@ def update_student(id):
         query = "SELECT * from Students where student_id = %s;"
         data = (id,)
         student_result = execute_query(db_connection, query, data).fetchall()
-        print(student_result)
-        # query = 'SELECT * from Teachers WHERE teacher_id = %s;' % (id)
-        # result = execute_query(db_connection, query).fetchall()
-        # print(result[0][0], 'this is result')
-        # return render_template('update_teacher.html', teach=result)
-        return render_template('update_student.html')
+
+        query2 = "SELECT * from StudentList where student_id = %s;"
+        class_result = execute_query(db_connection, query2, data).fetchall()
+
+        
+        class_list = []
+        for i in range(0, len(class_result)):
+            class_list.append(class_result[i][1])
+        # print(class_list)
+        current_classes = []
+        for j in range (0, len(class_list)):
+            query = "SELECT * from Classes where class_id = %s;"
+            data = (class_list[j],)
+            class_name = execute_query(db_connection, query, data).fetchall()
+            current_classes.append(class_name)
+        # print(current_classes)
+        query4 = "SELECT * from Classes;"
+        not_enrolled = execute_query(db_connection, query4).fetchall()
+        # print(not_enrolled)
+
+        not_enroll = []
+        for class_en in not_enrolled:
+            # print(class_en, 'class en')
+            if class_list.count(class_en[0]) == 0:
+                not_enroll.append(class_en)
+        # print(not_enroll)
+        student = student_result, current_classes, not_enroll
+        # print(student[1])
+        # print(student, current_classes, 'curr')
+        # print(student[1][0])
+        # print(student[0], 'student')
+        # print(not_enroll, 'not enroll')
+        # print(class_list)
+        # print(class_result)
+
+        return render_template('update_student.html', student=student)
     elif request.method == 'POST':
-        # print(request.form)
+        print(request.form, 'form')
+        first_name = request.form['first_name']
+        last_name = request.form['lname']
+        drop_list = request.form.getlist('drop')
+        new_enroll = request.form.getlist('new_enroll')
+
+        query = "UPDATE Students SET first_name = %s, last_name = %s where student_id = %s;"
+        data = (first_name, last_name, id)
+        execute_query(db_connection, query, data)
+        
+        for i in range(0, len(drop_list)):
+           
+            
+            query3 = "SELECT * from StudentGradeList where student_id = %s; "
+            data = (id,)
+
+            result = execute_query(db_connection, query3, data).fetchall()
+            
+            grades_final = []
+
+            for res in result:
+                
+                query4 = "SELECT * from Grades where grade_id = %s; "
+                data = (res[1],)
+                grade = execute_query(db_connection, query4, data).fetchall()
+                if grade:
+                    
+                    if grade[0][2] == int(drop_list[i]):
+                       
+                        grades_final.append(grade)
+            
+            for grade in grades_final:
+                query = "DELETE from StudentGradeList where grade_id = %s;"
+                data = (grade[0][0],)
+                execute_query(db_connection, query, data)
+                query = "DELETE from Grades where grade_id = %s;"
+                data = (grade[0][0],)
+                execute_query(db_connection, query, data)
+            
+            query2 = "DELETE from StudentList where student_id = %s and class_student_id = %s;"
+            data = (id, drop_list[i])
+            execute_query(db_connection, query2, data)
+            # print(result, 'result')
+            # print(drop_list[i], 'droplist')
+
+        # print(drop_list, new_enroll)
         # first_name = request.form['first_name']
         # last_name = request.form['lname']
-       
+        
         # query = "UPDATE Teachers SET first_name = %s , last_name = %s WHERE teacher_id = %s " 
         # data = (first_name, last_name, id)
         # execute_query(db_connection, query, data)
@@ -276,6 +351,7 @@ def students_view():
     for i in range(0, len(result)):
 
         class_list = []
+        class_ids = []
         query4 = "SELECT * from StudentList where student_id = %s;"
         data = (result[i][0],)
         result4 = execute_query(db_connection, query4, data).fetchall()
@@ -286,20 +362,43 @@ def students_view():
             query6 = "SELECT * from StudentGradeList where student_id = %s;"
             data = (result[i][0],)
             result6 = execute_query(db_connection, query6, data).fetchall()
-            # print(len(result6))
-            if len(result6) > 0:
+            
 
-                class_res = result5[0], result6[0][1]
-                class_list.append(class_res)
+            print(result6, 'result6')
+            if len(result6) > 0:
+                for r in result6:
+                    # print(r, 'r')
+                    query = "SELECT * from Grades where grade_id = %s and class_id = %s;"
+                    data = (r[1], result4[j][1])
+                    grade_number = execute_query(db_connection, query, data).fetchall()
+                    print(grade_number, 'grade #')
+                    if grade_number:
+                        # print(grade_number[0])
+                        # print(class_list, 'class_list')
+                        class_res = result5[0], grade_number[0][1]
+                        class_list.append(class_res)
+                        class_ids.append(result4[j][1])
+                    else:
+                        if class_ids.count(result4[j][1]) == 0:
+                            class_res = result5[0], ()
+                            class_list.append(class_res)
+                            class_ids.append(result4[j][1])
+                        # for c in class_list:
+                        #     print(c, 'class_list')
+                        #     class_res = result5[0], result6
+                        #     class_list.append(class_res)
             else:
+                # print(class_list, 'class_list')
                 class_res = result5[0], result6
                 class_list.append(class_res)
+                class_ids.append(result4[j][1])
         # print('hit')
         student = result[i], class_list
+        print(student, 'student')
         student_list.append(student)
-    print(student_list)
+    # print(student_list)
     result = student_list, result2
-    # print(result[0])
+    print(result)
     return render_template('students.html', rows=result)
 
 @webapp.route('/delete_class/<int:id>')

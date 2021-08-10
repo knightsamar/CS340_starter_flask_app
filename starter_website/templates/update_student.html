@@ -21,7 +21,32 @@
     </nav>
     <hr />
     <h2>Edit Student:</h2>
-
+    <form id="update_student" action="/update_student/{{student[0][0][0]}}" method = POST>
+        <label for="first_name">First Name:</label><br />
+        <input type="text" id="first_name" name="first_name" /><br />
+        <label for="last_name">Last Name:</label><br />
+        <input type="text" id="last_name" name="lname" /><br />
+        <label for="enrolled_classes">Currently Enrolled In:</label> <br/>
+        {% for c in student[1]%}
+        <label for={{c[0][0]}}>{{c[0][1]}}:</label><br />
+        <fieldset class = "enroll" id= {{c[0][0]}}>
+            <div class = "radio"> <input  type="checkbox" value={{c[0][0]}} name= "keep"> <br/>
+                <label for="keep" >Keep</label></div>
+            <div class = "radio">
+                <input  type="checkbox" value={{c[0][0]}} name= "drop"><br/>
+                <label for="drop" >Drop</label><br/>
+            </div>
+           
+        </fieldset>
+        {% endfor %}    
+        <p>Add A Class:</p>
+        
+        {% for c in student[2]%}
+        <input type="checkbox" name="new_enroll" value= {{ c[0]}}>{{ c[1]}} <br/>
+        {% endfor%}
+        <input type="submit" value="Submit" />
+    </form>
+    
 
 </body>
 </html>
