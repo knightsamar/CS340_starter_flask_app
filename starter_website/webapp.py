@@ -190,9 +190,33 @@ def delete_student(id):
     query2 = "DELETE from Students where student_id = %s;"
     result2 = execute_query(db_connection, query2, data)
     
-    print('hello')
+    # print('hello')
    
     return redirect('/students')
+@webapp.route('/update_student/<int:id>', methods=['POST','GET'])
+def update_student(id):
+    db_connection = connect_to_database()
+
+    if request.method == 'GET':
+        query = "SELECT * from Students where student_id = %s;"
+        data = (id,)
+        student_result = execute_query(db_connection, query, data).fetchall()
+        print(student_result)
+        # query = 'SELECT * from Teachers WHERE teacher_id = %s;' % (id)
+        # result = execute_query(db_connection, query).fetchall()
+        # print(result[0][0], 'this is result')
+        # return render_template('update_teacher.html', teach=result)
+        return render_template('update_student.html')
+    elif request.method == 'POST':
+        # print(request.form)
+        # first_name = request.form['first_name']
+        # last_name = request.form['lname']
+       
+        # query = "UPDATE Teachers SET first_name = %s , last_name = %s WHERE teacher_id = %s " 
+        # data = (first_name, last_name, id)
+        # execute_query(db_connection, query, data)
+
+        return redirect('/students')
 @webapp.route('/add_student', methods=['POST','GET'])
 def add_student():
     db_connection = connect_to_database()
