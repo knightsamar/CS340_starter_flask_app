@@ -185,9 +185,11 @@ def delete_student(id):
     query1 = "DELETE from StudentList where student_id = %s;"
     data = (id,)
     result1 = execute_query(db_connection, query1, data)
+    query6 = "DELETE from StudentGradeList where student_id = %s;"
+    execute_query(db_connection, query6, data)
     query2 = "DELETE from Students where student_id = %s;"
     result2 = execute_query(db_connection, query2, data)
-   
+    
     print('hello')
    
     return redirect('/students')
@@ -285,6 +287,19 @@ def delete_class(id):
     result1 = execute_query(db_connection, query1, data)
     query2 = "DELETE from StudentList where class_student_id = %s;"
     result2 = execute_query(db_connection, query2, data)
+    query3 = "SELECT * from Grades where class_id = %s;"
+    grade_result = execute_query(db_connection, query3, data).fetchall()
+
+    # print(grade_result)
+    if len(grade_result) > 0:
+        query4 = "DELETE from StudentGradeList where grade_id = %s; "
+        data = (grade_result[0][0])
+        execute_query(db_connection, query4, data)
+        query5 = "DELETE from Grades where grade_id = %s;"
+        execute_query(db_connection, query5, data)
+
+    
+    # print(grade_result)
     query = "DELETE from Classes where class_id = %s;"
     data = (id,)
     result = execute_query(db_connection, query, data)
