@@ -156,8 +156,13 @@ def add_grade(id, class_id):
         execute_query(db_connection, query5, data)
         return redirect('/grades')
 @webapp.route('/delete_grade/<int:id>')
+
 def delete_grade(id):
+    # print(id)
     db_connection = connect_to_database()
+    query = "DELETE from StudentGradeList where grade_id = %s;"
+    data = (id,)
+    execute_query(db_connection, query, data)
     query = "DELETE from Grades where grade_id = %s;"
     data = (id,)
 
@@ -173,11 +178,31 @@ def grades_view():
     result2 = execute_query(db_connection, query2).fetchall()
     grades_res = (result, result2)
 
+    student_list = []
+    query = "SELECT * from StudentGradeList;"
+    result3 = execute_query(db_connection, query).fetchall()
+    for res in result3:
+        query = "SELECT * from Students where student_id = %s;"
+        data = (res[2],)
+        student = execute_query(db_connection, query, data).fetchall()
+
+        query = "SELECT * from Grades where grade_id = %s;"
+        data = (res[1],)
+        grade = execute_query(db_connection, query, data).fetchall()
+
+        query = "SELECT * from Classes where class_id = %s;"
+        data = (grade[0][2],)
+        class_n = execute_query(db_connection, query, data).fetchall()
+        final = student, grade, class_n
+        student_list.append(final)
+    for g in student_list:
+        print(g[1])
+    # print(result3)
 
     # print(grades_res)
    
   
-    return render_template('grades.html', grade_result = grades_res)
+    return render_template('grades.html', grade_result = student_list)
 @webapp.route('/delete_student/<int:id>')
 def delete_student(id):
     '''deletes a student with the given id'''
