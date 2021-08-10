@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles.css')}}">
-    <title>Document</title>
+    <title>The Classroom Organizer</title>
 </head>
-
 <body>
-    <h1>Grades</h1>
+    <h1>The Classroom Organizer - Add Grade</h1>
     <hr />
     <nav>
         <ul>
@@ -22,30 +20,14 @@
         </ul>
     </nav>
     <hr />
-
-    <h2>Grades:</h2>
-    <table>
-        <thead>
-            <th>Student Name:</th>
-            <th>Class Name:</th>
-            <th>Grade:</th>
-
-            <th></th>
-        </thead>
-        <tbody>
-            {% for g in grade_result[0] %}
-            <tr>
-                <td></td>
-                <td></td>
-                <td>{{ g[1]}}</td>
-                <td> <input type='button' name='Delete' value='Delete'
-                    onclick="window.location = '/delete_grade/{{g[0]}}'"> </td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-
-    </table>
+    <h2>Add Grade:</h2>
+    <form id="add_grade" action="/add_grade/{{ rows[0][0][0]}}/{{rows[1][0][0]}}" method=POST>
+        <h3>Student: {{ rows[0][0][1]}} {{ rows[0][0][2]}}</h3>
+        <h3>Class: {{ rows[1][0][1]}} </h3>
+        <label for="grade">Grade:</label><br/>
+        <input type ="text" id="grade" name="grade"><br/>
+       
+        <input type="submit" value="Submit" />
+    </form>
 </body>
-
 </html>

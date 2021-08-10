@@ -1,0 +1,27 @@
+nav ul li {
+  display: inline-block;
+  padding-right: 30px;
+}
+
+li {
+  list-style: none;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 20px;
+}
+h2 {
+  border: 1px solid orange;
+}
+
+#student_table {
+  border: 1px solid red;
+}
+.grade-div {
+  /* border: 1px solid green; */
+  display: flex;
+}

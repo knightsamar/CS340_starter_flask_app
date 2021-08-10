@@ -73,7 +73,7 @@ def teachers_view():
        
         teach_results.append(teacher)
        
-    print(teach_results)
+    
     return render_template('teachers.html', rows=teach_results)
 @webapp.route('/update_teacher/<int:id>', methods=['POST','GET'])
 def update_teacher(id):
@@ -124,17 +124,36 @@ def delete_teacher(id):
     result = execute_query(db_connection, query, data)
     return redirect('/teachers')
 # Grades
-@webapp.route('/add_grade', methods=['POST','GET'])
-def add_grade():
+@webapp.route('/add_grade/<int:id>/<int:class_id>', methods=['POST','GET'])
+def add_grade(id, class_id):
     db_connection = connect_to_database()
 
     if request.method == 'GET':
-        query = 'SELECT id, name from bsg_planets'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-    elif request.method == 'POST':
-        print(request.form)
+        
+        query1 = "SELECT * from Students where student_id = %s;"
+        data = (id,)
+        student_result = execute_query(db_connection, query1, data).fetchall()
+        # print(student_result, 'student_result')
 
+        query2 = "SELECT * from Classes where class_id = %s;"
+        data = (class_id,)
+        class_result = execute_query(db_connection, query2, data).fetchall()
+        result = student_result, class_result
+        # print(result[1][0][1], 'result 0')
+        # print(class_result, 'class_result')
+        return render_template('add_grade.html', rows=result)
+    elif request.method == 'POST':
+        print(request.form, 'request')
+        grade_number = request.form['grade']
+        query3 = "INSERT INTO Grades (grade_number, class_id) VALUES (%s, %s); "
+        data = (grade_number, class_id)
+        execute_query(db_connection, query3, data)
+        query4 = "SELECT LAST_INSERT_ID() LIMIT 1;"
+        grade_id = execute_query(db_connection, query4).fetchall()
+        # print(grade_id[0][0], 'grade id')
+        query5 = "INSERT INTO StudentGradeList (grade_id, student_id) VALUES(%s, %s);"
+        data = (grade_id[0][0], id)
+        execute_query(db_connection, query5, data)
         return redirect('/grades')
 @webapp.route('/delete_grade/<int:id>')
 def delete_grade(id):
@@ -153,6 +172,8 @@ def grades_view():
     query2 = "SELECT * from Students;"
     result2 = execute_query(db_connection, query2).fetchall()
     grades_res = (result, result2)
+
+
     # print(grades_res)
    
   
@@ -167,7 +188,7 @@ def delete_student(id):
     query2 = "DELETE from Students where student_id = %s;"
     result2 = execute_query(db_connection, query2, data)
    
-
+    print('hello')
    
     return redirect('/students')
 @webapp.route('/add_student', methods=['POST','GET'])
@@ -192,7 +213,7 @@ def add_student():
 
         query2 = "SELECT LAST_INSERT_ID() LIMIT 1;"
         student_id = execute_query(db_connection, query2).fetchall()
-        # print(student_id[0][0])
+        print(student_id[0][0])
         for i in range(0, len(classes)):
             
             query3 = "INSERT INTO StudentList (class_student_id, student_id) VALUES (%s, %s);"
@@ -236,12 +257,23 @@ def students_view():
             query5 = "SELECT * from Classes where class_id = %s;"
             data = (result4[j][1],)
             result5 = execute_query(db_connection, query5, data).fetchall()
-            class_list.append(result5[0])
+            query6 = "SELECT * from StudentGradeList where student_id = %s;"
+            data = (result[i][0],)
+            result6 = execute_query(db_connection, query6, data).fetchall()
+            # print(len(result6))
+            if len(result6) > 0:
+
+                class_res = result5[0], result6[0][1]
+                class_list.append(class_res)
+            else:
+                class_res = result5[0], result6
+                class_list.append(class_res)
+        # print('hit')
         student = result[i], class_list
         student_list.append(student)
- 
+    print(student_list)
     result = student_list, result2
-  
+    # print(result[0])
     return render_template('students.html', rows=result)
 
 @webapp.route('/delete_class/<int:id>')
@@ -357,8 +389,8 @@ def classes_view():
         
     final_results = (final_results, teach_result)
     
-    for c in final_results[0]:
-        print(c, 'c')
+    # for c in final_results[0]:
+    #     print(c, 'c')
     # print(final_results[0], 'results 0')
     return render_template('classes.html', result = final_results)
 @webapp.route('/')

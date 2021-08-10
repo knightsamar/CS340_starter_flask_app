@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles.css')}}">
     <title>The Classroom Organizer</title>
 </head>
 
@@ -39,13 +39,14 @@
         <input type="submit" value="Submit" />
     </form>
     <h2>Students:</h2>
-    <table>
+    <table id="student_table">
         <thead>
             <th>First Name:</th>
             <th>Last Name:</th>
-            <th>Classes</th>
+            <th >Classes</th>
 
-            <th></th>
+            
+            <td></td>
         </thead>
            
         
@@ -57,7 +58,17 @@
             <td>
                 <ul>
                     {% for c in r[1] %}
-                    <li>{{ c[1]}}</li>
+                    <div class="grade-div">
+                        <li >{{ c[0][1]}}</li>
+                    {% if not c[1]%}
+                    <input type='button' name='Add Grade' value='Add Grade'
+                    onclick="window.location = '/add_grade/{{r[0][0]}}/{{ c[0][0]}} '">
+                    {% endif %}
+                    {% if c[1] %}
+                    <p>Grade: {{ c[1]}}</p>
+                    {% endif %}
+                    </div>
+                    
                     {% endfor %}
                 </ul>
               
