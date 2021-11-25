@@ -1,0 +1,11 @@
+<h3>Add new Books:</h3>
+<form id="update_book" action="/update_books/{{book[0]}}" method="post">
+    <!-- character_id {{ character_id }} -->
+    <input type="hidden" name="book_id" value="{{ book[0] }}">
+    First name: <input type="text" name="fname" value="{{ book[1] }}"><br>
+    Last name: <input type="text" name="lname" value="{{ book[2] }}"><br>
+    Last name: <input type="text" name="jjjj" value="{{ book[3] }}"><br>
+    Age: <input type="text" name="publisher" value="{{ book[4] }}"><br>
+    <input type="submit" value="Submit">
+</form>
+<br />
