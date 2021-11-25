@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="stylesheet.css">
+        <h1>
+            <a href="Loans.html">Loans</a>
+        </h1>
+        <nav class="menu-nav">
+            <ul>
+                <li class="header">
+                    <a class="link" href="Books.html">Books</a>
+                </li>
+                <li class="header">
+                    <a class="link" href="Patrons.html">Patrons</a>
+                </li>
+                <li class="header">
+                    <a class="link" href="Librarians.html">Librarians</a>
+                </li>
+                <li class="header">
+                    <a class="link" href="Index.html">Home</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <body>
+        <div class="all-body">
+        <h2>This page is for adding/editing/deleting/viewing Loans</h2>
+        <form>
+            <label for="loan_date">Date Loaned:</label><br>
+            <input id="loan_date" type="date"><br>
+            <label for="loan_is_active">Book Returned?</label><br>
+            <select id="loan_is_active">
+                <option value="Yes"> Yes </option>
+                <option value="No"> No</option>
+            </select><br>
+            <input type="submit" value="submit"><br>
+        </form>
+
+        <table class="table-style">
+        <thead>
+            <tr> 
+                <th>Date Loaned</th>
+                <th>Book Title</th>
+                <th>Book Returned?</th>
+                <th>Patron Name</th>
+                <th>Librarian Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1/1/2000</td>
+                <td>The Jungle</td>
+                <td>Yes</td>
+                <td>Jamie Johnson</td>
+                <td>John</td>
+                <th><input type="submit" id="update" value="edit"></th>
+                <th><input type="submit" id="delete" value="delete"></th>
+            </tr>
+            <tr>
+                <td>1/1/2000</td>
+                <td>16 Hours A Day: A Cat's Guide to Resting</td>
+                <td>No</td>
+                <td>Kim Rhoades</td>
+                <td>Jim</td>
+                <th><input type="submit" id="update" value="edit"></th>
+                <th><input type="submit" id="delete" value="delete"></th>
+            </tr>
+            <tr>
+                <td>1/1/2000</td>
+                <td>Inferno</td>
+                <td>Yes</td>
+                <td>Samuel Johns</td>
+                <td>Jim</td>
+                <th><input type="submit" id="update" value="edit"></th>
+                <th><input type="submit" id="delete" value="delete"></th>
+            </tr>
+        </tbody>
+        </table>
+
+    </div>
+    </body>
+</html>

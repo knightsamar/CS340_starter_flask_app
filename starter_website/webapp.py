@@ -8,38 +8,38 @@ webapp = Flask(__name__)
 @webapp.route('/hello')
 #provide a view (fancy name for a function) which responds to any requests on this route
 def hello():
-    return "Hello World!"
+    return "Hello"
 
-@webapp.route('/browse_bsg_people')
+@webapp.route('/browse_books')
 #the name of this function is just a cosmetic thing
 def browse_people():
-    print("Fetching and rendering people web page")
+    print("Fetching and rendering Books web page")
     db_connection = connect_to_database()
-    query = "SELECT fname, lname, homeworld, age, id from bsg_people;"
+    query = "SELECT book_title, book_author, book_genre, book_publisher FROM Books;"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('people_browse.html', rows=result)
+    return render_template('books_browse.html', rows=result)
 
-@webapp.route('/add_new_people', methods=['POST','GET'])
-def add_new_people():
+@webapp.route('/add_new_book', methods=['POST','GET'])
+def add_new_book():
     db_connection = connect_to_database()
     if request.method == 'GET':
-        query = 'SELECT id, name from bsg_planets'
+        query = 'SELECT librarian_id, librarian_name from Librarians'
         result = execute_query(db_connection, query).fetchall()
         print(result)
 
-        return render_template('people_add_new.html', planets = result)
+        return render_template('books_add_new.html', librarian = result)
     elif request.method == 'POST':
-        print("Add new people!")
-        fname = request.form['fname']
-        lname = request.form['lname']
-        age = request.form['age']
-        homeworld = request.form['homeworld']
+        print("Add new books!")
+        title = request.form['book_title']
+        genre = request.form['book_genre']
+        publisher = request.form['book_publisher']
+        author = request.form['book_author']
 
-        query = 'INSERT INTO bsg_people (fname, lname, age, homeworld) VALUES (%s,%s,%s,%s)'
-        data = (fname, lname, age, homeworld)
+        query = 'INSERT INTO Books (book_title,book_author, book_genre, book_publisher) VALUES (%s,%s,%s,%s)'
+        data = (title,author, genre, publisher)
         execute_query(db_connection, query, data)
-        return ('Person added!')
+        return redirect('/browse_books')
 
 @webapp.route('/')
 def index():
@@ -111,3 +111,8 @@ def delete_people(id):
 
     result = execute_query(db_connection, query, data)
     return (str(result.rowcount) + "row deleted")
+
+
+
+
+    

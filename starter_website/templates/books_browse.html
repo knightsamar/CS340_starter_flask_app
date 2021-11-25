@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="stylesheet.css">
+  <title>Books</title>
+</head>
+
+<body>
+  <div>
+    <ul id="menu">
+      <li class="header">
+        <a class="link" href="Books.html">Books</a>
+      </li>
+      <li class="header">
+        <a class="link" href="Loans.html">Patrons</a>
+      </li>
+      <li class="header">
+        <a class="link" href="Loans.html">Librarians</a>
+      </li>
+      <li class="header">
+        <a class="link" href="Loans.html">Loans</a>
+      </li>
+      <li class="header" style="float: right;">
+        <a class="link" href="Loans.html">Home</a>
+      </li>
+    </ul>
+  </div>
+  <div>
+  </div>
+  <h1>Books</h1>
+  <div>
+    <table border='1'>
+      <thead>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Publisher</th>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td> {{ r.0 }}</td>
+          <td> {{ r[1] }}</td>
+          <td> {{ r[2] }}</td>
+          <td> {{ r[3] }}</td>
+          <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_people/{{r[4]}}'">
+          </td>
+          <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[4]}}'">
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- <div>
+    <form>
+      <input id="Title" type="text" placeholder="Title"><br>
+      <input id="Author" type="text" placeholder="Author"><br>
+      <input id="Publisher" type="text" placeholder="Publisher"><br>
+      <input id="Genre" type="text" placeholder="Genre"><br>
+      <input type="button" value="Add Book">
+    </form>
+  </div> -->
+  <h3><a href='/add_new_book'>Add new book</a></h3>
+
+</body>
+
+</html>
