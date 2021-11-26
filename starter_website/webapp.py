@@ -20,6 +20,27 @@ def browse_people():
     print(result)
     return render_template('books_browse.html', rows=result)
 
+
+
+
+@webapp.route('/browse_loans')
+def browse_loans():
+    print("Fetching and redering Loans web page")
+    db_connection = connect_to_database()
+    query = "SELECT Loans.loan_date, Books.book_title, Loans.loan_is_active, Patrons.patron_name, Librarians.librarian_name FROM Loans JOIN Books ON Loans.book_id = Books.book_id JOIN Patrons ON Loans.patron_id=Patrons.patron_id JOIN Librarians ON Loans.librarian_id=Librarians.librarian_id;"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+    return render_template('loans_browse.html', rows=result)
+
+@webapp.route('/browse_librarians')
+def browse_librarians():
+    print("Fetching and rendering Librarians web page")
+    db_connection = connect_to_database()
+    query = "SELECT librarian_name FROM Librarians;"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+    return render_template('librarians_browse.html', rows=result)
+
 @webapp.route('/add_new_book', methods=['POST','GET'])
 def add_new_book():
     db_connection = connect_to_database()
@@ -40,6 +61,23 @@ def add_new_book():
         data = (title,author, genre, publisher)
         execute_query(db_connection, query, data)
         return redirect('/browse_books')
+
+@webapp.route('/add_new_librarian', methods=['POST','GET'])
+def add_new_librarian():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT librarian_id, librarian_name from Librarians'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('librarians_add_new.html', librarian = result)
+    elif request.method == 'POST':
+        print("Add new librarian!")
+        Lname = request.form['librarian_name']
+        query = 'INSERT INTO Librarians (librarian_name) VALUES (%s)'
+        data = (Lname)
+        execute_query(db_connection, query, data)
+        return redirect('/browse_librarians')
 
 @webapp.route('/')
 def index():

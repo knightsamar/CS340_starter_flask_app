@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheet.css">
-    <title>Books</title>
+    <title>Loans</title>
 </head>
 
 <body>
@@ -31,14 +31,15 @@
     </div>
     <div>
     </div>
-    <h1>Books</h1>
+    <h1>Loans</h1>
     <div>
         <table border='1'>
             <thead>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Genre</th>
-                <th>Publisher</th>
+                <th>Date Loaned</th>
+                <th>Book Title</th>
+                <th>Book Returned</th>
+                <th>Patron Name</th>
+                <th>Librarian Name</th>
             </thead>
             <tbody>
                 {% for r in rows %}
@@ -47,19 +48,17 @@
                     <td> {{ r[1] }}</td>
                     <td> {{ r[2] }}</td>
                     <td> {{ r[3] }}</td>
+                    <td> {{ r[4] }}</td>
                     <td> <input type='button' name='Update' value='Update'
-                            onclick="window.location = '/update_books/{{r[4]}}'">
+                            onclick="window.location = '/update_loans/{{r[5]}}'">
                     </td>
                     <td> <input type='button' name='Delete' value='Delete'
-                            onclick="window.location = '/delete_books/{{r[4]}}'">
+                            onclick="window.location = '/delete_loans/{{r[5]}}'">
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <h3><a href='/add_new_book'>Add new book</a></h3>
-
 </body>
-
 </html>
