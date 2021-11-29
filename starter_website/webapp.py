@@ -79,6 +79,31 @@ def add_new_librarian():
         execute_query(db_connection, query, data)
         return redirect('/browse_librarians')
 
+@webapp.route('/browse_patrons')
+def browse_patrons():
+    print("Fetching and rendering Books web page")
+    db_connection = connect_to_database()
+    query = "SELECT patron_name,patron_address from Patrons;"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+    return render_template('patrons_browse.html', rows=result)
+
+
+@webapp.route('/add_new_patron', methods=['POST','GET'])
+def add_new_patron():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        return render_template('patrons_add_new.html')
+    elif request.method == 'POST':
+        print("Add new Patrons!")
+        name = request.form['patron_name']
+        address = request.form['patron_address']
+    
+        query = 'INSERT INTO Patrons (patron_name, patron_address) VALUES (%s,%s)'
+        data = (name, address)
+        execute_query(db_connection, query, data)
+        return redirect('/browse_patrons')
+
 @webapp.route('/')
 def index():
     return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
