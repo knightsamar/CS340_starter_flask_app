@@ -12,16 +12,13 @@ def hello():
 
 @webapp.route('/browse_books')
 #the name of this function is just a cosmetic thing
-def browse_people():
+def browse_books():
     print("Fetching and rendering Books web page")
     db_connection = connect_to_database()
-    query = "SELECT book_title, book_author, book_genre, book_publisher FROM Books;"
+    query = "SELECT book_title, book_author, book_genre, book_publisher, book_id FROM Books;"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('books_browse.html', rows=result)
-
-
-
 
 @webapp.route('/browse_loans')
 def browse_loans():
@@ -41,15 +38,12 @@ def browse_librarians():
     print(result)
     return render_template('librarians_browse.html', rows=result)
 
+
 @webapp.route('/add_new_book', methods=['POST','GET'])
 def add_new_book():
     db_connection = connect_to_database()
     if request.method == 'GET':
-        query = 'SELECT librarian_id, librarian_name from Librarians'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('books_add_new.html', librarian = result)
+        return render_template('books_add_new.html')
     elif request.method == 'POST':
         print("Add new books!")
         title = request.form['book_title']
@@ -83,7 +77,7 @@ def add_new_librarian():
 def browse_patrons():
     print("Fetching and rendering Books web page")
     db_connection = connect_to_database()
-    query = "SELECT patron_name,patron_address from Patrons;"
+    query = "SELECT patron_name,patron_address, patron_id from Patrons;"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('patrons_browse.html', rows=result)
@@ -103,6 +97,85 @@ def add_new_patron():
         data = (name, address)
         execute_query(db_connection, query, data)
         return redirect('/browse_patrons')
+
+
+@webapp.route('/update_patrons/<int:id>', methods=['POST','GET'])
+def update_patrons(id):
+    print('In the function')
+    db_connection = connect_to_database()
+    #display existing data
+    if request.method == 'GET':
+        print('The GET request')
+        patron_query = 'SELECT patron_name, patron_address, patron_id from Patrons WHERE patron_id = %s' % (id)
+        patron_result = execute_query(db_connection, patron_query).fetchone()
+
+        if patron_result == None:
+            return "No such book found!"
+
+        return render_template('patrons_update.html', patron = patron_result)
+    elif request.method == 'POST':
+        print('The POST request')
+        name = request.form['name']
+        address = request.form['address']
+        patron_id = request.form['patron_id']
+
+        query = "UPDATE Patrons SET patron_name = %s, patron_address = %s WHERE patron_id = %s"
+        data = ( name, address,patron_id)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+
+        return redirect('/browse_patrons')
+
+@webapp.route('/delete_patrons/<int:id>')
+def delete_patron(id):
+    '''deletes a patron with the given id'''
+    db_connection = connect_to_database()
+    query = "DELETE FROM Patrons WHERE patron_id = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    # return (str(result.rowcount) + "row deleted")
+    return redirect('/browse_patrons')
+
+@webapp.route('/update_books/<int:id>', methods=['POST','GET'])
+def update_books(id):
+    print('In the function')
+    db_connection = connect_to_database()
+    #display existing data
+    if request.method == 'GET':
+        print('The GET request')
+        book_query = 'SELECT book_title, book_author, book_genre, book_publisher,book_id from Books WHERE book_id = %s' % (id)
+        book_result = execute_query(db_connection, book_query).fetchone()
+
+        if book_result == None:
+            return "No such book found!"
+
+        return render_template('books_update.html', book = book_result)
+    elif request.method == 'POST':
+        print('The POST request')
+        book_id = request.form['book_id']
+        title = request.form['title']
+        genre = request.form['genre']
+        publisher = request.form['publisher']
+        author = request.form['author']
+
+        query = "UPDATE Books SET book_title = %s, book_genre = %s, book_publisher = %s, book_author = %s WHERE book_id = %s"
+        data = ( title, genre, publisher, author,book_id)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+
+        return redirect('/browse_books')
+
+@webapp.route('/delete_books/<int:id>')
+def delete_book(id):
+    '''deletes a person with the given id'''
+    db_connection = connect_to_database()
+    query = "DELETE FROM Books WHERE book_id = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    # return (str(result.rowcount) + "row deleted")
+    return redirect('/browse_books')
 
 @webapp.route('/')
 def index():
@@ -130,52 +203,3 @@ def test_database_connection():
     query = "SELECT * from bsg_people;"
     result = execute_query(db_connection, query)
     return render_template('db_test.html', rows=result)
-
-#display update form and process any updates, using the same function
-@webapp.route('/update_people/<int:id>', methods=['POST','GET'])
-def update_people(id):
-    print('In the function')
-    db_connection = connect_to_database()
-    #display existing data
-    if request.method == 'GET':
-        print('The GET request')
-        people_query = 'SELECT id, fname, lname, homeworld, age from bsg_people WHERE id = %s'  % (id)
-        people_result = execute_query(db_connection, people_query).fetchone()
-
-        if people_result == None:
-            return "No such person found!"
-
-        planets_query = 'SELECT id, name from bsg_planets'
-        planets_results = execute_query(db_connection, planets_query).fetchall()
-
-        print('Returning')
-        return render_template('people_update.html', planets = planets_results, person = people_result)
-    elif request.method == 'POST':
-        print('The POST request')
-        character_id = request.form['character_id']
-        fname = request.form['fname']
-        lname = request.form['lname']
-        age = request.form['age']
-        homeworld = request.form['homeworld']
-
-        query = "UPDATE bsg_people SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE id = %s"
-        data = (fname, lname, age, homeworld, character_id)
-        result = execute_query(db_connection, query, data)
-        print(str(result.rowcount) + " row(s) updated")
-
-        return redirect('/browse_bsg_people')
-
-@webapp.route('/delete_people/<int:id>')
-def delete_people(id):
-    '''deletes a person with the given id'''
-    db_connection = connect_to_database()
-    query = "DELETE FROM bsg_people WHERE id = %s"
-    data = (id,)
-
-    result = execute_query(db_connection, query, data)
-    return (str(result.rowcount) + "row deleted")
-
-
-
-
-    

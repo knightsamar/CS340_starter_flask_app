@@ -1,0 +1,12 @@
+<h3>edit patron:</h3>
+
+
+<form id="update_patron" action="/update_patrons/{{ patron[2] }}" method="POST">
+    <!-- character_id {{ character_id }} -->
+    <input type="hidden" name="patron_id" value="{{ patron[2] }}">
+    name: <input type="text" name="name" value="{{ patron[0] }}"><br>
+    address: <input type="text" name="address" value="{{ patron[1] }}"><br>
+
+    <input type="submit" value="Submit">
+</form>
+<br /> -->
