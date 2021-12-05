@@ -63,9 +63,10 @@ def add_new_librarian():
         return render_template('librarians_add_new.html')
     elif request.method == 'POST':
         print("Add new librarian!")
-        name = request.form['librarian_name']
-        query = 'INSERT INTO Librarians (librarian_name) VALUES (%s)'
-        data = (name)
+        librarian_name = request.form['librarian_name']
+
+        query = 'INSERT INTO Librarians VALUES (%s)'
+        data = (librarian_name)
         execute_query(db_connection, query, data)
         return redirect('/browse_librarians')
 
@@ -94,6 +95,31 @@ def add_new_patron():
         execute_query(db_connection, query, data)
         return redirect('/browse_patrons')
 
+@webapp.route('/add_new_loan', methods=['POST','GET'])
+def add_new_loan():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT book_id, book_title FROM Books'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+        query = 'SELECT patron_id, patron_name FROM Patrons'
+        result2 = execute_query(db_connection, query).fetchall()
+        print(result2)
+        query = 'SELECT librarian_id, librarian_name FROM Librarians'
+        result3 = execute_query(db_connection, query).fetchall()
+        return render_template('loans_add_new.html', book_title=result, patron_name = result2, librarian_name = result3)
+    elif request.method == 'POST':
+        print("Add new Loans!")
+        date = request.form['loan_date']
+        title = request.form['book_title']
+        returned = request.form['loan_is_active']
+        patron = request.form['patron_name']
+        librarian = request.form['librarian_name']
+    
+        query = 'INSERT INTO Loans (loan_date, book_id, loan_is_active, patron_id, librarian_id) VALUES(%s, (SELECT book_id WHERE book_title = %s), %s, (SELECT patron_id WHERE patron_name = %s), (SELECT librairan_id WHERE librarian_name = %s))'
+        data = (date, title, returned, patron, librarian)
+        execute_query(db_connection, query, data)
+        return redirect('/browse_loans')
 
 @webapp.route('/update_patrons/<int:id>', methods=['POST','GET'])
 def update_patrons(id):
@@ -238,7 +264,7 @@ def update_loans(id):
 
 @webapp.route('/')
 def index():
-    return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
+    return render_template('index.html')
 
 @webapp.route('/home')
 def home():
