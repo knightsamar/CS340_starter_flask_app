@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Librarians</title>
+</head>
+
+<body>
+    <div>
+        <ul id="menu">
+            <li class="header">
+                <a class="link" href="/browse_books">Books</a>
+            </li>
+            <li class="header">
+                <a class="link" href="/browse_patrons">Patrons</a>
+            </li>
+            <li class="header">
+                <a class="link" href="/browse_librarians">Librarians</a>
+            </li>
+            <li class="header">
+                <a class="link" href="/browse_loans">Loans</a>
+            </li>
+            <li class="header" style="float: right;">
+                <a class="link" href="Loans.html">Home</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+    </div>
+    <h1>Librarians</h1>
+    <div>
+        <table border='1'>
+            <thead>
+                <th>Librarian Name</th>
+            </thead>
+            <tbody>
+                {% for r in rows %}
+                <tr>
+                    <td> {{ r.0 }}</td>
+                    <td> <input type='button' name='Update' value='Update'
+                            onclick="window.location = '/update_librarians/{{r[1]}}'">
+                    </td>
+                    <td> <input type='button' name='Delete' value='Delete'
+                            onclick="window.location = '/delete_librarians/{{r[1]}}'">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3><a href='/add_new_librarian'>Add new librarian</a></h3>
+</body>
+
+</html>

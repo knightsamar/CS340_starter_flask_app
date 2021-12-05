@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Loans</title>
+</head>
+
+<body>
+    <div>
+        <ul id="menu">
+            <li class="header">
+                <a class="link" href="/browse_books">Books</a>
+            </li>
+            <li class="header">
+                <a class="link" href="/browse_patrons">Patrons</a>
+            </li>
+            <li class="header">
+                <a class="link" href="/browse_librarians">Librarians</a>
+            </li>
+            <li class="header">
+                <a class="link" href="/browse_loans">Loans</a>
+            </li>
+            <li class="header" style="float: right;">
+                <a class="link" href="Loans.html">Home</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+    </div>
+    <h1>Loans</h1>
+    <div>
+        <table border='1'>
+            <thead>
+                <th>Date Loaned</th>
+                <th>Book Title</th>
+                <th>Book Returned</th>
+                <th>Patron Name</th>
+                <th>Librarian Name</th>
+            </thead>
+            <tbody>
+                {% for r in rows %}
+                <tr>
+                    <td> {{ r.0 }}</td>
+                    <td> {{ r[1] }}</td>
+                    <td> {{ r[2] }}</td>
+                    <td> {{ r[3] }}</td>
+                    <td> {{ r[4] }}</td>
+                    <td> <input type='button' name='Update' value='Update'
+                            onclick="window.location = '/update_loans/{{r[5]}}'">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

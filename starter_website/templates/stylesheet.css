@@ -1,0 +1,79 @@
+menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+header {
+  width: 100%;
+  padding: 30px 4% 10px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+}
+
+h1{
+  margin: 0; padding: 0;
+  font-size: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(30, 158, 233);
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  display: flex;
+}
+
+li{
+  margin: 0 0 0 15px;
+  font-size: 14px;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  background-color: rgb(236, 236, 236);
+  font-family: sans-serif;
+  margin-top: 70px;
+}
+
+.all-body{
+  margin-top: 5%;
+  margin-left: 2%;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+.table-style{
+  border-collapse: collapse;
+}
+.table-style thead tr{
+  background-color: rgb(30, 158, 233);
+  font-weight: bold;
+}
+.table-style th,
+.table-style td{
+  padding: 12px;
+}
+
+.body-link{
+  font-weight: bold;
+}
+
+.link-list{
+  margin-top: 10%;
+}
+
