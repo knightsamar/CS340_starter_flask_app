@@ -24,7 +24,7 @@
             <li class="header">
                 <a class="link" href="/browse_loans">Loans</a>
             </li>
-            <li class="header" style="float: right;">
+            <li class="header">
                 <a class="link" href="/">Home</a>
             </li>
         </ul>
@@ -49,9 +49,6 @@
                     <td> {{ r[2] }}</td>
                     <td> {{ r[3] }}</td>
                     <td> {{ r[4] }}</td>
-                    <td> <input type='button' name='Update' value='Update'
-                            onclick="window.location = '/update_loans/{{r[5]}}'">
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

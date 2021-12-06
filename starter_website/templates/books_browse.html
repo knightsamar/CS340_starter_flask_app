@@ -24,7 +24,7 @@
             <li class="header">
                 <a class="link" href="/browse_loans">Loans</a>
             </li>
-            <li class="header" style="float: right;">
+            <li class="header">
                 <a class="link" href="/">Home</a>
             </li>
         </ul>
@@ -59,10 +59,28 @@
         </table>
     </div>
     <h3><a href='/add_new_book'>Add new book</a></h3>
+    <h3>Search by Title</h3>
+    <form id = "search_title" action="/db_test_title" method="post">
+        Title: <input type="text" name="book_title"><br>
+        <input type="submit" name='Search'>
+    </form>
+
     <h3>Search by Author</h3>
-    <form id = "search_author" action="/search_author" method="post">
+    <form id = "search_author" action="/db_test" method="post">
         Name: <input type="text" name="book_author"><br>
-        <input type="submit" value="Submit">
+        <input type="submit" name='Search'>
+    </form>
+
+    <h3>Search by Genre</h3>
+    <form id = "search_genre" action="/db_test_genre" method="post">
+        Genre: <input type="text" name="book_genre"><br>
+        <input type="submit" name='Search'>
+    </form>
+
+    <h3>Search by Publisher</h3>
+    <form id = "search_publisher" action="/db_test_publisher" method="post">
+        Publisher: <input type="text" name="book_publisher"><br>
+        <input type="submit" name='Search'>
     </form>
     <br />
 

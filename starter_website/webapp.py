@@ -52,11 +52,11 @@ def add_new_book():
         author = request.form['book_author']
 
         query = 'INSERT INTO Books (book_title,book_author, book_genre, book_publisher) VALUES (%s,%s,%s,%s)'
-        data = (title,author, genre, publisher)
+        data = (title, author, genre, publisher)
         execute_query(db_connection, query, data)
         return redirect('/browse_books')
 
-@webapp.route('/add_new_librarian', methods=['POST','GET'])
+@webapp.route('/add_new_librarian', methods=['GET','POST'])
 def add_new_librarian():
     db_connection = connect_to_database()
     if request.method == 'GET':
@@ -65,8 +65,8 @@ def add_new_librarian():
         print("Add new librarian!")
         librarian_name = request.form['librarian_name']
 
-        query = 'INSERT INTO Librarians VALUES (%s)'
-        data = (librarian_name)
+        query = 'INSERT INTO Librarians (librarian_name) VALUES (%s)'
+        data = (librarian_name,)
         execute_query(db_connection, query, data)
         return redirect('/browse_librarians')
 
@@ -111,12 +111,12 @@ def add_new_loan():
     elif request.method == 'POST':
         print("Add new Loans!")
         date = request.form['loan_date']
-        title = request.form['book_title']
+        title = request.form['book_id']
         returned = request.form['loan_is_active']
-        patron = request.form['patron_name']
-        librarian = request.form['librarian_name']
+        patron = request.form['patron_id']
+        librarian = request.form['librarian_id']
     
-        query = 'INSERT INTO Loans (loan_date, book_id, loan_is_active, patron_id, librarian_id) VALUES(%s, (SELECT book_id WHERE book_title = %s), %s, (SELECT patron_id WHERE patron_name = %s), (SELECT librairan_id WHERE librarian_name = %s))'
+        query = '''INSERT INTO Loans (loan_date, book_id, loan_is_active, patron_id, librarian_id) VALUES(%s, %s, %s, %s, %s)'''
         data = (date, title, returned, patron, librarian)
         execute_query(db_connection, query, data)
         return redirect('/browse_loans')
@@ -255,12 +255,22 @@ def update_loans(id):
         loan_is_active = request.form['loan_is_active']
         book_id = request.form['book_id']
 
-        query = "UPDATE Loans SET loan_is_active = %s, WHERE book_id = %s"
+        query = "UPDATE Loans SET loan_is_active = %s, WHERE loan_id = %s"
         data = (loan_is_active, book_id)
         result = execute_query(db_connection, query, data)
         print(str(result.rowcount) + " row(s) updated")
 
         return redirect('/browse_loans')
+
+@webapp.route('/search_books_book')
+def search_books():
+    
+    print("Fetching and rendering Books search page I WAS HERE") #+ request.form['book_author'])
+    db_connection = connect_to_database()
+    #query = "SELECT book_title, book_author, book_genre, book_publisher, book_id FROM Books WHERE book_author = %s;"
+  #  result = execute_query(db_connection).fetchall()
+ #   print(result)
+    return render_template('books_search.html') #author_rows=result)
 
 @webapp.route('/')
 def index():
@@ -281,10 +291,50 @@ def home():
         print(f"{r[0]}, {r[1]}")
     return render_template('home.html', result = result)
 
-@webapp.route('/db_test')
+@webapp.route('/db_test', methods = ['POST'])
 def test_database_connection():
-    print("Executing a sample query on the database using the credentials from db_credentials.py")
+    print("Fetching and rendering Books search result NEWER")
+    author = request.form['book_author']
     db_connection = connect_to_database()
-    query = "SELECT * from bsg_people;"
-    result = execute_query(db_connection, query)
-    return render_template('db_test.html', rows=result)
+    query = "SELECT book_title, book_author, book_genre, book_publisher, book_id FROM Books WHERE book_author = %s;"
+    data = (author,)
+    print(data)
+    result = execute_query(db_connection, query, data).fetchall()
+    print(result)
+    return render_template('books_search.html', rows=result)
+
+@webapp.route('/db_test_title', methods = ['POST'])
+def test_database_connection2():
+    print("Fetching and rendering Books search result NEWER")
+    title = request.form['book_title']
+    db_connection = connect_to_database()
+    query = "SELECT book_title, book_author, book_genre, book_publisher, book_id FROM Books WHERE book_title = %s;"
+    data = (title,)
+    print(data)
+    result = execute_query(db_connection, query, data).fetchall()
+    print(result)
+    return render_template('books_search.html', rows=result)
+
+@webapp.route('/db_test_genre', methods = ['POST'])
+def test_database_connection3():
+    print("Fetching and rendering Books search result NEWER")
+    genre = request.form['book_genre']
+    db_connection = connect_to_database()
+    query = "SELECT book_title, book_author, book_genre, book_publisher, book_id FROM Books WHERE book_genre = %s;"
+    data = (genre,)
+    print(data)
+    result = execute_query(db_connection, query, data).fetchall()
+    print(result)
+    return render_template('books_search.html', rows=result)
+
+@webapp.route('/db_test_publisher', methods = ['POST'])
+def test_database_connection4():
+    print("Fetching and rendering Books search result NEWER")
+    publisher = request.form['book_publisher']
+    db_connection = connect_to_database()
+    query = "SELECT book_title, book_author, book_genre, book_publisher, book_id FROM Books WHERE book_publisher = %s;"
+    data = (publisher,)
+    print(data)
+    result = execute_query(db_connection, query, data).fetchall()
+    print(result)
+    return render_template('books_search.html', rows=result)

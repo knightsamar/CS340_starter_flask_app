@@ -1,18 +1,20 @@
-<h3>Search Result for book_author</h3>
-<thead>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Genre</th>
-    <th>Publisher</th>
-</thead>
-<tbody>
-    {% for r in rows %}
-    <tr>
-        <td> {{ r.0 }}</td>
-        <td> {{ r[1] }}</td>
-        <td> {{ r[2] }}</td>
-        <td> {{ r[3] }}</td>
-    </tr>
-    {% endfor %}
-</tbody>
+<h3>Search Result</h3>
+<table border='1'>
+    <thead>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Publisher</th>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td> {{ r.0 }}</td>
+            <td> {{ r[1] }}</td>
+            <td> {{ r[2] }}</td>
+            <td> {{ r[3] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
+<h3><a href='/browse_books'>Go back to Books</a></h3>

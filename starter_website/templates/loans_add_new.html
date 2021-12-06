@@ -1,21 +1,21 @@
 <h3>Add new loans:</h3>
-<form id="addlibrarian" action="/add_new_librarian" method="post">
+<form id="addloan" action="/add_new_loan" method="post">
     Date Loaned: <input type="date" name="loan_date"><br>
-    book Title: <select name="book_title">
+    book Title: <select name="book_id">
         {% for p in book_title %}
             <option value = "{{ p[0] }}">{{ p[1 ]}}</option>
         {% endfor %}
     </select><br>
     book Returned: <select name="loan_is_active">
-        <option value = "Book Return">yes</option>
-        <option value = "Book Return">no</option>
+        <option value = "Returned">yes</option>
+        <option value = "Loaned Out">no</option>
     </select><br>
-    Patron Name: <select name="patron_name">
+    Patron Name: <select name="patron_id">
         {% for p in patron_name %}
             <option value = "{{ p[0] }}">{{ p[1]}}</option>
         {% endfor %}
     </select><br>
-    Librarian Name: <select name="librarian_name">
+    Librarian Name: <select name="librarian_id">
         {% for p in librarian_name %}
             <option value = "{{ p[0] }}">{{ p[1] }}</option>
         {% endfor %}
